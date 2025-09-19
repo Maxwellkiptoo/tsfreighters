@@ -64,7 +64,7 @@
 <header>
     <h1>TS Freighters</h1>
     <nav>
-        <a href="../home/index.php">Home</a>
+        <a href="../../../public/index.php">Home</a>
         <a href="/tracking/index">Track</a>
         <a href="/services/index">Services</a>
         <a href="/about/index">About Us</a>
