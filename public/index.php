@@ -4,38 +4,33 @@
 require_once __DIR__ . '/../app/Core/Database.php';
 require_once __DIR__ . '/../app/Core/Auth.php';
 
-// Load controllers
-require_once __DIR__ . '/../app/Controllers/HomeController.php';
-require_once __DIR__ . '/../app/Controllers/CustomerController.php';
+// Autoload Controllers (instead of manually requiring each one)
+spl_autoload_register(function ($class) {
+    $controllerPath = __DIR__ . '/../app/Controllers/' . $class . '.php';
+    if (file_exists($controllerPath)) {
+        require_once $controllerPath;
+    }
+});
 
 // Start session/auth
 Auth::init();
 
-// Default to home controller
-$controller = $_GET['controller'] ?? 'home';
+// Default routing values
+$controllerName = ucfirst(strtolower($_GET['controller'] ?? 'home')) . 'Controller';
 $action = $_GET['action'] ?? 'index';
 
-// Simple router
-switch ($controller) {
-    case 'home':
-        $ctrl = new HomeController();
-        if (method_exists($ctrl, $action)) {
-            $ctrl->$action();
-        } else {
-            echo 'Unknown action';
-        }
-        break;
+// Check if controller exists
+if (class_exists($controllerName)) {
+    $controller = new $controllerName();
 
-    case 'customer':
-        $ctrl = new CustomerController();
-        if (method_exists($ctrl, $action)) {
-            $ctrl->$action();
-        } else {
-            echo 'Unknown action';
-        }
-        break;
-
-    default:
-        echo 'Unknown controller';
+    // Check if action exists
+    if (method_exists($controller, $action)) {
+        $controller->$action();
+    } else {
+        http_response_code(404);
+        echo "404 - Unknown action: <b>{$action}</b> in {$controllerName}";
+    }
+} else {
+    http_response_code(404);
+    echo "404 - Unknown controller: <b>{$controllerName}</b>";
 }
-?>

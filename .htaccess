@@ -1,0 +1,17 @@
+# Enable Rewrite Engine
+RewriteEngine On
+RewriteBase /tsfreighters/
+
+# If user visits /tsfreighters/, redirect to /public/
+DirectoryIndex public/index.php
+
+# Hide the /public in URL
+RewriteCond %{REQUEST_URI} !^/tsfreighters/public
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
+
+# Route all requests through index.php if no file exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ public/index.php?route=$1 [QSA,L]
