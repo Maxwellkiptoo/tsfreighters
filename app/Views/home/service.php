@@ -2,29 +2,38 @@
 
 <!-- AOS CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
-<section class="intro-section text-center py-5 mt-header position-relative overflow-hidden" data-aos="fade-up">
-  <div class="intro-background"></div>
-
+<section class="intro-section mt-header position-relative overflow-hidden" data-aos="fade-up">
   <div class="container">
-    <div class="intro-box mx-auto p-5 shadow-lg">
-      <div class="intro-icon mb-4">
-        <i class="fas fa-boxes fa-3x gradient-icon"></i>
+    <div class="row align-items-center intro-box p-4 p-md-5 shadow-lg">
+      
+      <!-- Left: Image -->
+      <div class="col-md-6 mb-4 mb-md-0">
+        <img src="public/assets/images/log.jpg" alt="Logistics" class="img-fluid rounded hero-img">
       </div>
-      <h2 class="fw-bold text-uppercase mb-3 display-5 text-white">
-        Logistics that Move You Forward
-      </h2>
-      <p class="lead fw-medium mb-4 text-light">
-        Discover our premium logistics services designed to make your shipping experience
-        <span class="highlight-fast">fast</span>,
-        <span class="highlight-secure">secure</span>, and
-        <span class="highlight-seamless">seamless</span>.
-      </p>
-      <a href="#services" class="btn btn-glow rounded-pill px-5 py-3 fw-bold mt-3">
-        Explore Services
-      </a>
+
+      <!-- Right: Content -->
+      <div class="col-md-6 text-center text-md-start">
+        <div class="intro-icon mb-3">
+          <i class="fas fa-shipping-fast fa-3x gradient-icon"></i>
+        </div>
+        <h2 class="fw-bold text-uppercase mb-3 text-white display-5">
+          Logistics that Move You Forward
+        </h2>
+        <p class="lead fw-medium mb-4 text-light">
+          Discover our premium logistics services designed to make your shipping experience 
+          <span class="highlight-fast">fast</span>, 
+          <span class="highlight-secure">secure</span>, and 
+          <span class="highlight-seamless">seamless</span>.
+        </p>
+        <a href="#services" class="btn btn-glow rounded-pill px-5 py-3 fw-bold mt-2">
+          Explore Services
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
+
 
 <!-- OUR PREMIUM SERVICES -->
 <section class="services-section py-5">

@@ -295,58 +295,27 @@
   margin-top: 100px;
 }
 
-/* Background overlay */
-.intro-background {
-  position: absolute;
-  inset: 0;
+/* Main section wrapper */
+.intro-section {
   background: linear-gradient(to right, #004aad, #d40511);
-  opacity: 0.1;
-  z-index: 0;
-  pointer-events: none;
 }
 
-/* Main intro box styling */
-.intro-box {
-  position: relative;
-  background: linear-gradient(135deg, #d40511, #ffc107);
-  border-radius: 20px;
-  max-width: 2000px;
-  border: none;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  z-index: 1;
-}
-
-.intro-box:hover {
-  transform: scale(1.015);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-}
-
-/* Icon animation */
-.intro-icon i {
+/* Icon */
+.gradient-icon {
   background: linear-gradient(to right, #ffe600, #d40511);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: popIn 0.8s ease;
 }
 
-/* Gradient icon class */
-.gradient-icon {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-/* Highlighted words */
+/* Highlights */
 .highlight-fast {
   color: #00cfff;
   font-weight: 700;
 }
-
 .highlight-secure {
   color: #d40511;
   font-weight: 700;
 }
-
 .highlight-seamless {
   color: #ffc107;
   font-weight: 700;
@@ -358,8 +327,8 @@
   color: #d40511;
   border: none;
   font-size: 1rem;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
   transition: all 0.3s ease;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
 .btn-glow:hover {
@@ -368,19 +337,15 @@
   box-shadow: 0 8px 20px rgba(212, 5, 17, 0.6);
 }
 
-/* Title */
-.intro-box h2 {
-  letter-spacing: 1px;
-  line-height: 1.3;
+/* Image Styling */
+.hero-img {
+  border-radius: 15px;
+  object-fit: cover;
+  width: 100%;
+  max-height: 400px;
 }
 
-/* Text */
-.intro-box p {
-  font-size: 1.2rem;
-  line-height: 1.6;
-}
-
-/* Icon Animation */
+/* Icon animation */
 @keyframes popIn {
   from {
     opacity: 0;
@@ -392,9 +357,14 @@
   }
 }
 
+.intro-icon i {
+  animation: popIn 0.8s ease;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .intro-box {
+    flex-direction: column;
     padding: 2rem;
   }
 
@@ -410,7 +380,12 @@
     padding: 0.75rem 2rem;
     font-size: 1rem;
   }
+
+  .hero-img {
+    max-height: 250px;
+  }
 }
+
 
 /* Premium Colors */
 .text-primary-blue { color: #004aad !important; } /* Deep Blue */
