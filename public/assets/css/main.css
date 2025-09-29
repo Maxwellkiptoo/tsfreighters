@@ -1,52 +1,77 @@
 /* ================================ 
-   Hero Section
+   Hero Section with Carousel
 ================================ */
-.hero {
-  background: url('/tsfreighters/assets/images/hero-bg.jpg') center/cover no-repeat;
-  height: 85vh;
+.hero-slide {
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: #fff;
 }
 
-.hero::after {
+.hero-slide::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 51, 102, 0.65); /* Blue overlay */
+  background: rgba(0, 51, 102, 0.55); /* Blue overlay */
 }
 
-.hero .container {
-  position: relative;
+.carousel-caption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
   z-index: 2;
+  background: rgba(0, 0, 0, 0.45);
+  padding: 25px 30px;
+  border-radius: 12px;
+  max-width: 700px;
 }
 
-.hero h1 {
+.carousel-caption h1 {
   font-size: 3rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 2px;
+  color: #fff;
+  animation: fadeInDown 1s ease forwards;
 }
 
-.hero p {
+.carousel-caption p {
   font-size: 1.2rem;
   margin-top: 15px;
+  color: #f1f1f1;
+  animation: fadeInUp 1.2s ease forwards;
 }
 
-.hero form input {
+.carousel-caption form input {
   max-width: 400px;
   border-radius: 30px;
   padding: 12px 20px;
   font-size: 1rem;
 }
 
-.hero form button {
+.carousel-caption form button {
   border-radius: 30px;
   font-weight: 600;
   padding: 10px 28px;
+}
+
+/* Animations for captions */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Carousel Controls */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
 }
 
 /* ================================
@@ -159,22 +184,34 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .nav-form {
+  .navbar-brand img {
+    max-height: 40px;
+  }
+
+  .carousel-caption {
+    padding: 15px 20px;
+    max-width: 90%;
+  }
+
+  .carousel-caption h1 {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+
+  .carousel-caption p {
+    font-size: 1rem;
+  }
+
+  .carousel-caption form {
     flex-direction: column;
-    margin-top: 10px;
+    gap: 10px;
   }
 
-  .nav-form input {
-    margin-bottom: 8px;
+  .carousel-caption form input {
     width: 100%;
   }
 
-  .nav-form button {
+  .carousel-caption form button {
     width: 100%;
-  }
-
-  .d-flex.ms-lg-3 a {
-    width: 100%;
-    margin-bottom: 8px;
   }
 }
