@@ -290,12 +290,57 @@
 }
 /* ================================
    Services Page Enhancements
-================================ */
-
-/* Header Fix for Hidden Section */
-.intro-section {
-  padding-top: 6rem; /* Ensures it's visible below sticky navbar */
+/* Offset below fixed navbar */
+.mt-header {
+  margin-top: 100px;
 }
+
+/* Intro Box Styling */
+.intro-box {
+  background: linear-gradient(135deg, #ffe600 0%, #d40511 100%);
+  color: #1a1a1a;
+  border-radius: 20px;
+  max-width: 1500px;
+  backdrop-filter: blur(5px);
+  border: 2px solid #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.intro-box:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Styling */
+.intro-icon i {
+  color: #d40511;
+  animation: bounceIn 1s ease;
+}
+
+/* Button style matching DHL tone */
+.btn-danger {
+  background-color: #d40511;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #aa0410;
+  box-shadow: 0 4px 12px rgba(212, 5, 17, 0.4);
+}
+
+/* AOS animation */
+@keyframes bounceIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 
 /* Premium Colors */
 .text-primary-blue { color: #004aad !important; } /* Deep Blue */

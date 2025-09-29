@@ -3,17 +3,27 @@
 <!-- AOS CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
 
-<!-- INTRO TEXT -->
-<section class="intro-section text-center py-4">
+<section class="intro-section text-center py-5 mt-header position-relative" data-aos="zoom-in">
   <div class="container">
-    <p class="lead">
-      Discover our premium logistics services designed to make your shipping experience 
-      <span class="text-primary-blue fw-bold">fast</span>, 
-      <span class="text-danger-red fw-bold">secure</span>, and 
-      <span class="text-warning-yellow fw-bold">seamless</span>.
-    </p>
+    <div class="intro-box mx-auto p-5 shadow-lg">
+      <div class="intro-icon mb-3">
+        <i class="fas fa-shipping-fast fa-3x text-danger-red"></i>
+      </div>
+      <h2 class="fw-bold text-uppercase mb-4 text-dark">Logistics that Move You Forward</h2>
+      <p class="lead fw-medium mb-4">
+        Discover our premium logistics services designed to make your shipping experience
+        <span class="text-primary-blue fw-bold">fast</span>,
+        <span class="text-danger-red fw-bold">secure</span>, and
+        <span class="text-warning-yellow fw-bold">seamless</span>.
+      </p>
+      <a href="#services" class="btn btn-danger rounded-pill px-4 py-2 fw-bold mt-2">
+        Explore Services
+      </a>
+    </div>
   </div>
 </section>
+
+
 
 <!-- OUR PREMIUM SERVICES -->
 <section class="services-section py-5">
