@@ -288,68 +288,122 @@
     width: 100%;
   }
 }
-.section-title {
-  font-weight: 700;
-  font-size: 2.5rem;
-  color: #004aad;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-bottom: 1.5rem;
+/* ================================
+   Services Page Enhancements
+================================ */
+
+/* Header Fix for Hidden Section */
+.intro-section {
+  padding-top: 6rem; /* Ensures it's visible below sticky navbar */
 }
 
-.service-card, .solution-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 30px 25px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  cursor: default;
-}
+/* Premium Colors */
+.text-primary-blue { color: #004aad !important; } /* Deep Blue */
+.text-danger-red { color: #d40511 !important; }   /* DHL Red */
+.text-warning-yellow { color: #ffc107 !important; } /* Yellow */
 
-.service-card:hover, .solution-card:hover {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  transform: translateY(-7px);
-}
-
-.service-card i, .solution-card i {
-  transition: color 0.3s ease;
-}
-
-.service-card:hover i, .solution-card:hover i {
-  color: #d40511;
-}
-
-.service-card h5, .solution-card h6 {
-  margin-bottom: 15px;
-  font-weight: 700;
-  color: #222;
-}
-
-.service-card p, .solution-card p {
-  color: #555;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #004aad, #0066cc);
-  border: none;
-  transition: background 0.3s ease;
-}
-
-.btn-primary:hover {
-  background: #002e6c;
-}
-
-.btn-outline-danger {
-  border-color: #d40511;
-  color: #d40511;
-  transition: all 0.3s ease;
-}
-
-.btn-outline-danger:hover {
-  background-color: #d40511;
+/* Button Custom Styles */
+.btn-primary-blue {
+  background-color: #004aad;
+  border-color: #004aad;
   color: #fff;
-  box-shadow: 0 6px 15px rgba(212, 5, 17, 0.5);
+  transition: all 0.3s ease;
 }
 
+.btn-primary-blue:hover {
+  background-color: #00367a;
+  border-color: #00367a;
+  box-shadow: 0 6px 15px rgba(0, 74, 173, 0.5);
+}
+
+/* Service Cards - Hover Accent Borders */
+.service-card {
+  border-top: 4px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.service-card.blue-border:hover {
+  border-color: #004aad;
+  box-shadow: 0 0 20px rgba(0, 74, 173, 0.2);
+}
+
+.service-card.red-border:hover {
+  border-color: #d40511;
+  box-shadow: 0 0 20px rgba(212, 5, 17, 0.2);
+}
+
+.service-card.yellow-border:hover {
+  border-color: #ffc107;
+  box-shadow: 0 0 20px rgba(255, 193, 7, 0.2);
+}
+
+/* Instant Solutions */
+.solution-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.solution-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Smooth Icon Animations on Hover */
+.service-card i,
+.solution-card i {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.service-card:hover i,
+.solution-card:hover i {
+  transform: scale(1.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .service-card h5,
+  .service-card h6,
+  .solution-card h6 {
+    font-size: 1.1rem;
+  }
+
+  .solution-card {
+    padding: 20px 18px;
+  }
+}
+
+/* CTA Section Styling */
+.cta-section {
+  background: linear-gradient(90deg, #004aad, #002e6c);
+}
+
+.cta-section h3,
+.cta-section p {
+  color: #fff;
+}
+
+.cta-section a.btn {
+  background-color: #ffc107;
+  color: #000;
+  font-weight: 600;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.cta-section a.btn:hover {
+  background-color: #e0a800;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(255, 193, 7, 0.4);
+}
+
+/* AOS Fade Enhancements */
+[data-aos] {
+  opacity: 0;
+  transition-property: opacity, transform;
+}
+
+[data-aos].aos-animate {
+  opacity: 1;
+}
