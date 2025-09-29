@@ -2,28 +2,29 @@
 
 <!-- AOS CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+<section class="intro-section text-center py-5 mt-header position-relative overflow-hidden" data-aos="fade-up">
+  <div class="intro-background"></div>
 
-<section class="intro-section text-center py-5 mt-header position-relative" data-aos="zoom-in">
   <div class="container">
     <div class="intro-box mx-auto p-5 shadow-lg">
-      <div class="intro-icon mb-3">
-        <i class="fas fa-shipping-fast fa-3x text-danger-red"></i>
+      <div class="intro-icon mb-4">
+        <i class="fas fa-boxes fa-3x gradient-icon"></i>
       </div>
-      <h2 class="fw-bold text-uppercase mb-4 text-dark">Logistics that Move You Forward</h2>
-      <p class="lead fw-medium mb-4">
+      <h2 class="fw-bold text-uppercase mb-3 display-5 text-white">
+        Logistics that Move You Forward
+      </h2>
+      <p class="lead fw-medium mb-4 text-light">
         Discover our premium logistics services designed to make your shipping experience
-        <span class="text-primary-blue fw-bold">fast</span>,
-        <span class="text-danger-red fw-bold">secure</span>, and
-        <span class="text-warning-yellow fw-bold">seamless</span>.
+        <span class="highlight-fast">fast</span>,
+        <span class="highlight-secure">secure</span>, and
+        <span class="highlight-seamless">seamless</span>.
       </p>
-      <a href="#services" class="btn btn-danger rounded-pill px-4 py-2 fw-bold mt-2">
+      <a href="#services" class="btn btn-glow rounded-pill px-5 py-3 fw-bold mt-3">
         Explore Services
       </a>
     </div>
   </div>
 </section>
-
-
 
 <!-- OUR PREMIUM SERVICES -->
 <section class="services-section py-5">
