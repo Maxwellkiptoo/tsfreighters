@@ -18,14 +18,14 @@
       </div>
     </div>
     <!-- Slide 2 -->
-    <div class="carousel-item hero-slide" style="background-image: url('/../../public/asset/images/slide2.jpg');">
+    <div class="carousel-item hero-slide" style="background-image: url('public/asset/images/slide2.jpg');">
       <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
         <h1 class="fw-bold display-4">Your Cargo, Our Priority</h1>
         <p class="lead">Reliable Express Freight Solutions Tailored for You</p>
       </div>
     </div>
     <!-- Slide 3 -->
-    <div class="carousel-item hero-slide" style="background-image: url('/../../public/asset/images/truck 1.jpg');">
+    <div class="carousel-item hero-slide" style="background-image: url('public/asset/images/truck1.jpg');">
       <div class="carousel-caption d-flex flex-column justify-content-center align-items-center">
         <h1 class="fw-bold display-4">Global Reach, Local Touch</h1>
         <p class="lead">Seamless International Freight & Cargo Handling Services</p>
