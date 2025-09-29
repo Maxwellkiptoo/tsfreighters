@@ -2,15 +2,21 @@
 
 <!-- Hero Section with Carousel -->
 <section id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+  <!-- Indicators -->
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+  </div>
+
   <div class="carousel-inner">
     <?php
-      // Define exactly 3 online images
+      // Define slides
       $slides = [
         [
-          "img" => "truck1.jpg",
+          "img" => "truck4.jpg",
           "title" => "Delivering Beyond Borders",
-          "text"  => "Fast, Secure, and Reliable Logistics Solutions in Kenya & Across the Globe",
-          "tracking" => true
+          "text"  => "Fast, Secure, and Reliable Logistics Solutions in Kenya & Across the Globe"
         ],
         [
           "img" => "truck2.jpg",
@@ -26,28 +32,29 @@
 
       $imageWebPath = 'public/assets/images/';
 
-      // Output the 3 slides
       foreach ($slides as $i => $slide): ?>
-        <div class="carousel-item hero-slide <?= $i === 0 ? 'active' : '' ?>" 
-             style="background-image: url('<?= $imageWebPath . $slide['img'] ?>');">
+        <div class="carousel-item hero-slide <?= $i === 0 ? 'active' : '' ?>">
+          <!-- Background with overlay -->
+          <div class="hero-bg" style="background-image: url('<?= $imageWebPath . $slide['img'] ?>');"></div>
+
+          <!-- Caption -->
           <div class="carousel-caption d-flex flex-column justify-content-center align-items-center text-center px-3">
-            <h1 class="fw-bold display-4"><?= htmlspecialchars($slide['title']) ?></h1>
-            <p class="lead"><?= htmlspecialchars($slide['text']) ?></p>
-            <?php if (!empty($slide['tracking'])): ?>
-              <!-- Tracking Form -->
-              <form class="d-flex justify-content-center mt-4 w-100" action="index.php" method="get" style="max-width:600px;">
-                <input type="hidden" name="controller" value="customer">
-                <input type="hidden" name="action" value="tracking">
-                <input type="text" name="tracking_number" class="form-control rounded-pill me-2" placeholder="Enter Tracking Number" required>
-                <button class="btn btn-warning rounded-pill px-4 fw-bold text-dark" type="submit">Track</button>
-              </form>
-            <?php endif; ?>
+            <h1 class="fw-bold display-4 text-white"><?= htmlspecialchars($slide['title']) ?></h1>
+            <p class="lead text-white mb-4"><?= htmlspecialchars($slide['text']) ?></p>
+
+            <!-- Tracking Form -->
+            <form class="tracking-form d-flex justify-content-center w-100" action="index.php" method="get" style="max-width:600px;">
+              <input type="hidden" name="controller" value="customer">
+              <input type="hidden" name="action" value="tracking">
+              <input type="text" name="tracking_number" class="form-control rounded-pill me-2 shadow-sm" placeholder="Enter Tracking Number" required>
+              <button class="btn btn-warning rounded-pill px-4 fw-bold text-dark shadow-sm" type="submit">Track</button>
+            </form>
           </div>
         </div>
     <?php endforeach; ?>
   </div>
 
-  <!-- Carousel Controls -->
+  <!-- Controls -->
   <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
     <span class="carousel-control-prev-icon"></span>
   </button>
@@ -55,7 +62,6 @@
     <span class="carousel-control-next-icon"></span>
   </button>
 </section>
-
 
 <!-- Service Highlights -->
 <section class="py-5 bg-light text-center">
@@ -122,6 +128,43 @@
         <div class="p-4 bg-white shadow-sm rounded">
           <i class="fas fa-truck-moving fa-3x text-primary mb-3"></i>
           <h6>Last-Mile Delivery</h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Access Section (New) -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="fw-bold text-center mb-5">Quick Access</h2>
+    <div class="row g-4 text-center">
+      <div class="col-md-3 col-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <i class="fas fa-box-open fa-3x text-danger mb-3"></i>
+          <h6 class="fw-bold">Ship Now</h6>
+          <p>Find the right service for your shipping needs.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <i class="fas fa-calculator fa-3x text-danger mb-3"></i>
+          <h6 class="fw-bold">Get a Quote</h6>
+          <p>Estimate cost to share and compare.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <i class="fas fa-briefcase fa-3x text-danger mb-3"></i>
+          <h6 class="fw-bold">DHL for Business</h6>
+          <p>Shipping regularly? Request a business account.</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-6">
+        <div class="p-4 bg-white shadow-sm rounded h-100">
+          <i class="fas fa-file-contract fa-3x text-danger mb-3"></i>
+          <h6 class="fw-bold">Latest Tariffs</h6>
+          <p>Navigating the latest tariff developments.</p>
         </div>
       </div>
     </div>

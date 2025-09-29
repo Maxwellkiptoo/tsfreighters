@@ -1,11 +1,11 @@
-/* ================================ 
+/* ================================
    Hero Section with Carousel
 ================================ */
 .hero-slide {
   height: 100vh;
+  position: relative;
   background-size: cover;
   background-position: center;
-  position: relative;
 }
 
 .hero-slide::after {
@@ -13,6 +13,16 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 51, 102, 0.55); /* Blue overlay */
+  z-index: 1;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(60%);
+  z-index: 0;
 }
 
 .carousel-caption {
@@ -44,7 +54,15 @@
   animation: fadeInUp 1.2s ease forwards;
 }
 
+.carousel-caption form {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
 .carousel-caption form input {
+  flex: 1;
   max-width: 400px;
   border-radius: 30px;
   padding: 12px 20px;
@@ -204,13 +222,9 @@
 
   .carousel-caption form {
     flex-direction: column;
-    gap: 10px;
   }
 
-  .carousel-caption form input {
-    width: 100%;
-  }
-
+  .carousel-caption form input,
   .carousel-caption form button {
     width: 100%;
   }
