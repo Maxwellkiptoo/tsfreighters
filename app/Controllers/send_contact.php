@@ -1,16 +1,13 @@
 <?php
-// File: app/controllers/send_contact.php
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 header('Content-Type: application/json');
 
-// ✅ Enable Error Reporting (for debugging)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// ✅ Load PHPMailer
 require_once __DIR__ . '/../../private/vendor/autoload.php';
 
 // ✅ Allow only POST
