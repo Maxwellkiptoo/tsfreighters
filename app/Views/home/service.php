@@ -2,16 +2,38 @@
 
 <!-- AOS CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+<style>
+  /* Color-coded badges for different services */
+  .badge-freight { background-color: #0d6efd; color: #fff; padding: 0.5em 1em; border-radius: 0.5rem; }
+  .badge-warehousing { background-color: #ffc107; color: #000; padding: 0.5em 1em; border-radius: 0.5rem; }
+  .badge-aircargo { background-color: #dc3545; color: #fff; padding: 0.5em 1em; border-radius: 0.5rem; }
+  .badge-lastmile { background-color: #198754; color: #fff; padding: 0.5em 1em; border-radius: 0.5rem; }
+
+  /* Autocomplete styles */
+  .autocomplete-suggestions {
+      border: 1px solid #ccc;
+      background: #fff;
+      position: absolute;
+      max-height: 150px;
+      overflow-y: auto;
+      z-index: 9999;
+      width: 100%;
+  }
+  .autocomplete-suggestion {
+      padding: 8px;
+      cursor: pointer;
+  }
+  .autocomplete-suggestion:hover {
+      background-color: #f0f0f0;
+  }
+</style>
+
 <section class="intro-section mt-header position-relative overflow-hidden" data-aos="fade-up">
   <div class="container">
     <div class="row align-items-center intro-box p-4 p-md-5 shadow-lg">
-      
-      <!-- Left: Image -->
       <div class="col-md-6 mb-4 mb-md-0">
         <img src="public/assets/images/log.jpg" alt="Logistics" class="img-fluid rounded hero-img">
       </div>
-
-      <!-- Right: Content -->
       <div class="col-md-6 text-center text-md-start">
         <div class="intro-icon mb-3">
           <i class="fas fa-shipping-fast fa-3x gradient-icon"></i>
@@ -25,17 +47,12 @@
           <span class="highlight-secure">secure</span>, and 
           <span class="highlight-seamless">seamless</span>.
         </p>
-        <a href="#services" class="btn btn-glow rounded-pill px-5 py-3 fw-bold mt-2">
-          Explore Services
-        </a>
       </div>
-
     </div>
   </div>
 </section>
 
-
-<!-- OUR PREMIUM SERVICES -->
+<!-- Premium Services Section -->
 <section class="services-section py-5">
   <div class="container">
     <h2 class="section-title text-center mb-5" data-aos="fade-up">Our Premium Services</h2>
@@ -65,21 +82,20 @@
   </div>
 </section>
 
-<!-- CORE SERVICES -->
+<!-- Core Services Section -->
 <section class="core-services-section py-5 bg-light">
   <div class="container text-center">
     <h2 class="section-title mb-5" data-aos="fade-up">Our Core Services</h2>
     <div class="row g-4 justify-content-center">
       <?php
-        $services = [
-          ["icon" => "fa-truck-loading", "name" => "Freight Forwarding", "desc" => "Shipping, customs clearance, and delivery coordination.", "color" => "text-primary-blue", "border" => "blue-border"],
-          ["icon" => "fa-warehouse", "name" => "Warehousing", "desc" => "Secure storage and inventory management.", "color" => "text-warning-yellow", "border" => "yellow-border"],
-          ["icon" => "fa-plane-departure", "name" => "Air Cargo", "desc" => "Fast and reliable air freight services.", "color" => "text-danger-red", "border" => "red-border"],
-          ["icon" => "fa-truck-moving", "name" => "Last-Mile Delivery", "desc" => "Efficient door-to-door delivery.", "color" => "text-primary-blue", "border" => "blue-border"]
-        ];
-        foreach ($services as $index => $service):
-      ?>
-      <div class="col-md-3 col-sm-6" data-aos="zoom-in" data-aos-delay="<?= ($index+1)*150 ?>">
+      $services = [
+          ["icon"=>"fa-truck-loading","name"=>"Freight Forwarding","border"=>"blue-border","color"=>"text-primary-blue"],
+          ["icon"=>"fa-warehouse","name"=>"Warehousing","border"=>"yellow-border","color"=>"text-warning-yellow"],
+          ["icon"=>"fa-plane-departure","name"=>"Air Cargo","border"=>"red-border","color"=>"text-danger-red"],
+          ["icon"=>"fa-truck-moving","name"=>"Last-Mile Delivery","border"=>"blue-border","color"=>"text-primary-blue"]
+      ];
+      foreach ($services as $i => $service): ?>
+      <div class="col-md-3 col-sm-6" data-aos="zoom-in" data-aos-delay="<?= ($i+1)*150 ?>">
         <div class="service-card shadow rounded p-4 h-100 d-flex flex-column align-items-center <?= $service['border'] ?>">
           <i class="fas <?= htmlspecialchars($service['icon']) ?> fa-3x <?= htmlspecialchars($service['color']) ?> mb-3"></i>
           <h6 class="fw-bold"><?= htmlspecialchars($service['name']) ?></h6>
@@ -90,43 +106,173 @@
   </div>
 </section>
 
-<!-- INSTANT SOLUTIONS -->
-<section class="instant-solutions-section py-5">
+<!-- Shipping Calculator Section -->
+<section class="instant-solutions-section py-5 bg-light">
   <div class="container">
-    <h2 class="section-title text-center mb-5" data-aos="fade-up">Instant Solutions</h2>
-    <div class="row g-4 text-center">
-      <?php
-        $solutions = [
-          ["icon" => "fa-box-open", "title" => "Ship Now", "desc" => "Choose the best service for your shipment in minutes.", "btnText" => "Start Shipping", "btnLink" => "#", "color" => "text-primary-blue"],
-          ["icon" => "fa-calculator", "title" => "Get a Quote", "desc" => "Estimate & compare costs instantly.", "btnText" => "Calculate", "btnLink" => "#", "color" => "text-danger-red"],
-          ["icon" => "fa-briefcase", "title" => "For Business", "desc" => "Regular shipping? Get a business account.", "btnText" => "Apply Now", "btnLink" => "#", "color" => "text-warning-yellow"],
-          ["icon" => "fa-file-contract", "title" => "Tariff Updates", "desc" => "Latest tariffs and compliance updates.", "btnText" => "View Updates", "btnLink" => "#", "color" => "text-primary-blue"]
-        ];
-        foreach ($solutions as $i => $item):
-      ?>
-      <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="<?= ($i+1)*150 ?>">
-        <div class="solution-card shadow rounded p-4 h-100 d-flex flex-column justify-content-between">
-          <i class="fas <?= htmlspecialchars($item['icon']) ?> fa-3x <?= htmlspecialchars($item['color']) ?> mb-3"></i>
-          <h6 class="fw-bold"><?= htmlspecialchars($item['title']) ?></h6>
-          <p><?= htmlspecialchars($item['desc']) ?></p>
-          <a href="<?= htmlspecialchars($item['btnLink']) ?>" class="btn btn-outline-danger rounded-pill mt-3"><?= htmlspecialchars($item['btnText']) ?></a>
+    <h2 class="section-title text-center mb-5" data-aos="fade-up">Get a Shipping Quote</h2>
+
+    <div class="card shadow-lg p-4 p-md-5" data-aos="fade-up">
+      <div class="row g-3">
+        <!-- Service Type -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold">Select Service</label>
+          <select id="serviceType" class="form-select form-select-lg">
+            <option value="freight">Freight Forwarding</option>
+            <option value="warehousing">Warehousing</option>
+            <option value="aircargo">Air Cargo</option>
+            <option value="lastmile">Last-Mile Delivery</option>
+          </select>
+        </div>
+
+        <!-- Weight -->
+        <div class="col-md-2">
+          <label class="form-label fw-bold">Weight (kg)</label>
+          <input type="number" id="weight" class="form-control form-control-lg" value="1" min="1">
+        </div>
+
+        <!-- Dimensions -->
+        <div class="col-md-2">
+          <label class="form-label fw-bold">Height (cm)</label>
+          <input type="number" id="height" class="form-control form-control-lg" step="0.01">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label fw-bold">Width (cm)</label>
+          <input type="number" id="width" class="form-control form-control-lg" step="0.01">
+        </div>
+        <div class="col-md-2">
+          <label class="form-label fw-bold">Length (cm)</label>
+          <input type="number" id="length" class="form-control form-control-lg" step="0.01">
+        </div>
+
+        <!-- Locations -->
+        <div class="col-md-6 position-relative">
+          <label class="form-label fw-bold">From Location</label>
+          <input type="text" id="fromLocation" class="form-control form-control-lg" placeholder="e.g., Nairobi">
+          <div id="fromSuggestions" class="autocomplete-suggestions"></div>
+        </div>
+        <div class="col-md-6 position-relative">
+          <label class="form-label fw-bold">To Location</label>
+          <input type="text" id="toLocation" class="form-control form-control-lg" placeholder="e.g., Mombasa">
+          <div id="toSuggestions" class="autocomplete-suggestions"></div>
         </div>
       </div>
-      <?php endforeach; ?>
-    </div>
-  </div>
-</section>
 
-<!-- CALL TO ACTION -->
-<section class="cta-section py-5 text-white text-center" data-aos="zoom-in">
-  <div class="container">
-    <h3 class="mb-3">Ready to Ship with <strong>TS Freighters</strong>?</h3>
-    <p class="mb-4">Contact us or request a quote to begin your journey.</p>
-    <a href="index.php?controller=customer&action=contact" class="btn btn-light btn-lg rounded-pill">Contact Us</a>
+      <!-- Shipping Cost Display -->
+      <div class="text-center mt-4">
+        <h4>Your Shipping Cost: <span id="shippingCost" class="badge badge-freight fs-5 px-4 py-2">$0.00</span></h4>
+        <p id="routeInfo" class="text-muted mt-2"></p>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center mt-4">
+        <button class="btn btn-primary btn-lg shadow" onclick="alert('This feature can be connected to email/checkout!')">
+          Request Quote
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>
 
-<!-- AOS JS -->
-<script src="https://cdn.jsdeli
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init();
+
+// Clean list of cities with distances (from Nairobi)
+const cities = {
+  "Nairobi":0, "Mombasa":484, "Kisumu":337, "Eldoret":311, "Nakuru":158, "Thika":42, "Malindi":581,
+  "Kitale":410, "Naivasha":141, "Machakos":63, "Kisii":350, "Embu":125, "Kericho":300, "Kakamega":400,
+  "Garissa":350, "Lamu":700, "Voi":500, "Iten":320, "Mumias":420, "Webuye":430, "Lodwar":800, "Mandera":900,
+  "Isiolo":300, "Nyeri":150, "Rongai":60, "Kajiado":70, "Kitui":190, "Bungoma":470, "Busia":500,
+  "Makueni":130, "Migori":500, "Moyale":800, "Molo":270, "Maralal":500, "Nyahururu":150, "Pumwani":10,
+  "Kabarnet":400, "Athi River":20, "Karuri":194, "Kiambu":21, "Ol Kalou":47, "Meru":47, "Kilifi":46,
+  "Wajir":45, "Lugulu":40, "Homa Bay":40, "Nanyuki":36, "Narok":36
+};
+
+// Autocomplete function
+function autocomplete(input, suggestionsDiv) {
+    input.addEventListener('input', () => {
+        const value = input.value.toLowerCase();
+        suggestionsDiv.innerHTML = '';
+        if (!value) return;
+        Object.keys(cities).forEach(city => {
+            if(city.toLowerCase().startsWith(value)) {
+                const div = document.createElement('div');
+                div.classList.add('autocomplete-suggestion');
+                div.innerText = city;
+                div.addEventListener('click', () => {
+                    input.value = city;
+                    suggestionsDiv.innerHTML = '';
+                    calculateShipping();
+                });
+                suggestionsDiv.appendChild(div);
+            }
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if(e.target !== input) suggestionsDiv.innerHTML = '';
+    });
+}
+
+// Calculate distance
+function getDistance(from, to) {
+    const fromDist = cities[from] || 0;
+    const toDist = cities[to] || 0;
+    return Math.abs(toDist - fromDist);
+}
+
+// Shipping calculation
+function calculateShipping() {
+    const service = document.getElementById('serviceType').value;
+    const weight = parseFloat(document.getElementById('weight').value) || 0;
+    const height = parseFloat(document.getElementById('height').value) || 0;
+    const width = parseFloat(document.getElementById('width').value) || 0;
+    const length = parseFloat(document.getElementById('length').value) || 0;
+    const from = document.getElementById('fromLocation').value.trim();
+    const to = document.getElementById('toLocation').value.trim();
+
+    const distanceKm = getDistance(from, to);
+    const volumetric = height * width * length * 0.01;
+
+    let cost = 0;
+    let badgeClass = 'badge-freight';
+
+    switch(service){
+        case 'freight': cost = (weight*20 + volumetric + distanceKm)*2; badgeClass='badge-freight'; break;
+        case 'warehousing': cost = (weight>10 ? Math.ceil(weight/10)*10 : 0) + volumetric + distanceKm; badgeClass='badge-warehousing'; break;
+        case 'aircargo': cost = distanceKm*3 + weight*20 + volumetric; badgeClass='badge-aircargo'; break;
+        case 'lastmile': cost = distanceKm*1 + weight*20 + volumetric; badgeClass='badge-lastmile'; break;
+    }
+
+    const costEl = document.getElementById('shippingCost');
+    const current = parseFloat(costEl.getAttribute('data-current') || 0);
+    const target = cost;
+    let start = null;
+
+    function animate(timestamp){
+        if(!start) start = timestamp;
+        const progress = timestamp - start;
+        const newCost = current + (target-current) * Math.min(progress/500,1);
+        costEl.innerText = `$${newCost.toFixed(2)}`;
+        if(progress < 500) requestAnimationFrame(animate);
+        else costEl.setAttribute('data-current', target);
+    }
+    requestAnimationFrame(animate);
+
+    costEl.className = `badge ${badgeClass}`;
+    document.getElementById('routeInfo').innerText = `Route: ${from || 'N/A'} → ${to || 'N/A'} (${distanceKm} km)`;
+}
+
+// Initialize autocomplete
+autocomplete(document.getElementById('fromLocation'), document.getElementById('fromSuggestions'));
+autocomplete(document.getElementById('toLocation'), document.getElementById('toSuggestions'));
+
+// Event listeners
+['serviceType','weight','height','width','length','fromLocation','toLocation'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculateShipping);
+});
+
+// Initial calculation
+calculateShipping();
+</script>
