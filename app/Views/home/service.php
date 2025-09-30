@@ -106,7 +106,7 @@
   </div>
 </section>
 
-<!-- INSTANT SOLUTIONS --> 
+<!-- Instant Solutions -->
 <section class="instant-solutions-section py-5">
   <div class="container">
     <h2 class="section-title text-center mb-5" data-aos="fade-up">Instant Solutions</h2>
@@ -191,7 +191,55 @@
   </div>
 </div>
 
-<!-- CALL TO ACTION --> 
+<!-- Shipping Cost Calculator Section -->
+<section class="instant-solutions-section py-5">
+  <div class="container">
+    <h2 class="section-title text-center mb-5" data-aos="fade-up">Get a Shipping Quote</h2>
+    <div class="row g-3 justify-content-center" data-aos="fade-up">
+      <div class="col-md-3">
+        <label class="form-label">Select Service</label>
+        <select id="serviceType" class="form-select">
+          <option value="freight">Freight Forwarding</option>
+          <option value="warehousing">Warehousing</option>
+          <option value="aircargo">Air Cargo</option>
+          <option value="lastmile">Last-Mile Delivery</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Weight (kg)</label>
+        <input type="number" id="weight" class="form-control" value="1" min="1">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Height (cm)</label>
+        <input type="number" id="height" class="form-control" step="0.01">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Width (cm)</label>
+        <input type="number" id="width" class="form-control" step="0.01">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Length (cm)</label>
+        <input type="number" id="length" class="form-control" step="0.01">
+      </div>
+      <div class="col-md-3 position-relative">
+        <label class="form-label">From Location</label>
+        <input type="text" id="fromLocation" class="form-control" placeholder="e.g., Nairobi">
+        <div id="fromSuggestions" class="autocomplete-suggestions"></div>
+      </div>
+      <div class="col-md-3 position-relative">
+        <label class="form-label">To Location</label>
+        <input type="text" id="toLocation" class="form-control" placeholder="e.g., Mombasa">
+        <div id="toSuggestions" class="autocomplete-suggestions"></div>
+      </div>
+    </div>
+    <div class="text-center mt-4" data-aos="fade-up">
+      <h4>Your Shipping Cost: <span id="shippingCost" class="badge badge-freight">$0.00</span></h4>
+      <p id="routeInfo"></p>
+    </div>
+  </div>
+</section>
+
+<!-- Call To Action -->
 <section class="cta-section py-5 text-white text-center" data-aos="zoom-in">
   <div class="container">
     <h3 class="mb-3">Ready to Ship with <strong>TS Freighters</strong>?</h3>
@@ -202,21 +250,103 @@
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>
 
+<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
 AOS.init();
 
-// Open Ship Now modal when clicking Start Shipping
+// Ship Now modal
 document.querySelectorAll('.ship-now-btn').forEach(btn=>{
     btn.setAttribute('data-bs-toggle','modal');
     btn.setAttribute('data-bs-target','#shipNowModal');
 });
 
-// Optional: handle form submission
 document.getElementById('shipNowForm').addEventListener('submit', function(e){
     e.preventDefault();
     alert('Your shipping request has been submitted!');
     var modal = bootstrap.Modal.getInstance(document.getElementById('shipNowModal'));
     modal.hide();
 });
+
+// Cities with distances
+const cities = {
+  "Nairobi":0, "Mombasa":484, "Kisumu":337, "Eldoret":311, "Nakuru":158, "Thika":42, "Malindi":581,
+  "Kitale":410, "Naivasha":141, "Machakos":63, "Kisii":350, "Embu":125, "Kericho":300, "Kakamega":400,
+  "Garissa":350, "Lamu":700, "Voi":500, "Iten":320, "Mumias":420, "Webuye":430, "Lodwar":800, "Mandera":900,
+  "Isiolo":300, "Nyeri":150, "Rongai":60, "Kajiado":70, "Kitui":190, "Bungoma":470, "Busia":500,
+  "Makueni":130, "Migori":500, "Moyale":800, "Molo":270, "Maralal":500, "Nyahururu":150, "Pumwani":10,
+  "Kabarnet":400, "Athi River":20, "Karuri":194, "Kiambu":21, "Ol Kalou":47, "Meru":47, "Kilifi":46,
+  "Wajir":45, "Lugulu":40, "Homa Bay":40, "Nanyuki":36, "Narok":36
+};
+
+// Autocomplete
+function autocomplete(input, suggestionsDiv) {
+    input.addEventListener('input', () => {
+        const value = input.value.toLowerCase();
+        suggestionsDiv.innerHTML = '';
+        if (!value) return;
+        Object.keys(cities).forEach(city => {
+            if(city.toLowerCase().startsWith(value)) {
+                const div = document.createElement('div');
+                div.classList.add('autocomplete-suggestion');
+                div.innerText = city;
+                div.addEventListener('click', () => {
+                    input.value = city;
+                    suggestionsDiv.innerHTML = '';
+                    calculateShipping();
+                });
+                suggestionsDiv.appendChild(div);
+            }
+        });
+    });
+    document.addEventListener('click', (e) => {
+        if(e.target !== input) suggestionsDiv.innerHTML = '';
+    });
+}
+
+// Distance
+function getDistance(from, to) {
+    const fromDist = cities[from] || 0;
+    const toDist = cities[to] || 0;
+    return Math.abs(toDist - fromDist);
+}
+
+// Shipping calculation
+function calculateShipping() {
+    const service = document.getElementById('serviceType').value;
+    const weight = parseFloat(document.getElementById('weight').value) || 0;
+    const height = parseFloat(document.getElementById('height').value) || 0;
+    const width = parseFloat(document.getElementById('width').value) || 0;
+    const length = parseFloat(document.getElementById('length').value) || 0;
+    const from = document.getElementById('fromLocation').value.trim();
+    const to = document.getElementById('toLocation').value.trim();
+
+    const distanceKm = getDistance(from, to);
+    const volumetric = height * width * length * 0.01;
+
+    let cost = 0;
+    let badgeClass = 'badge-freight';
+
+    switch(service){
+        case 'freight': cost = (weight*20 + volumetric + distanceKm)*2; badgeClass='badge-freight'; break;
+        case 'warehousing': cost = (weight>10 ? Math.ceil(weight/10)*10 : 0) + volumetric + distanceKm; badgeClass='badge-warehousing'; break;
+        case 'aircargo': cost = distanceKm*3 + weight*20 + volumetric; badgeClass='badge-aircargo'; break;
+        case 'lastmile': cost = distanceKm*1 + weight*20 + volumetric; badgeClass='badge-lastmile'; break;
+    }
+
+    const costEl = document.getElementById('shippingCost');
+    costEl.innerText = `$${cost.toFixed(2)}`;
+    costEl.className = `badge ${badgeClass}`;
+    document.getElementById('routeInfo').innerText = `Route: ${from || 'N/A'} → ${to || 'N/A'} (${distanceKm} km)`;
+}
+
+autocomplete(document.getElementById('fromLocation'), document.getElementById('fromSuggestions'));
+autocomplete(document.getElementById('toLocation'), document.getElementById('toSuggestions'));
+
+['serviceType','weight','height','width','length','fromLocation','toLocation'].forEach(id => {
+    document.getElementById(id).addEventListener('input', calculateShipping);
+});
+
+// Initial calculation
+calculateShipping();
 </script>
