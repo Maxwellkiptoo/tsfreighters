@@ -276,3 +276,48 @@ autocomplete(document.getElementById('toLocation'), document.getElementById('toS
 // Initial calculation
 calculateShipping();
 </script>
+<style>
+/* Card styling */
+.instant-solutions-section .card {
+    border-radius: 1rem;
+    background: #ffffff;
+}
+
+/* Highlight badges */
+#shippingCost {
+    font-weight: 600;
+    border-radius: 1rem;
+}
+
+/* Form labels */
+.form-label {
+    font-size: 0.95rem;
+}
+
+/* Autocomplete suggestions */
+.autocomplete-suggestions {
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    width: 100%;
+    z-index: 9999;
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
+}
+.autocomplete-suggestion {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+}
+.autocomplete-suggestion:hover {
+    background-color: #f8f9fa;
+}
+
+/* Button hover */
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+    transition: 0.3s;
+}
+</style>
