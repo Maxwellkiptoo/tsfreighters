@@ -138,5 +138,9 @@ class CustomerController
     {
         require_once __DIR__ . '/../Views/home/contact.php';
     }
+            public function login()
+    {
+        require_once __DIR__ . '/../Views/auth/login.php';
+    }
 }
 
