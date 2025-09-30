@@ -1,4 +1,7 @@
-<?php include __DIR__ . '/../layout/header.php'; ?>
+<?php
+include __DIR__ . '/../layout/header.php';
+session_start();
+?>
 
 <!-- Hero Section -->
 <section class="contact-hero text-center text-white position-relative d-flex align-items-center justify-content-center" 
@@ -9,11 +12,7 @@
     margin-top: 0;
     padding-top: 120px !important;
   ">
-  
-  <!-- Dark Overlay -->
-  <div class="overlay position-absolute top-0 start-0 w-100 h-100" 
-       style="background: rgba(0, 0, 0, 0.6);"></div>
-  
+  <div class="overlay position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0, 0, 0, 0.6);"></div>
   <div class="container position-relative z-2">
     <h1 class="fw-bold display-6 mb-3">Get in Touch with TS Freighters</h1>
     <p class="lead mb-0">Let’s move your business forward with fast, secure, and reliable logistics solutions.</p>
@@ -88,9 +87,23 @@
                 <div class="col-12">
                   <textarea id="message" name="message" rows="5" class="form-control form-control-lg" placeholder="Your Message" required></textarea>
                 </div>
+
+                <!-- Math CAPTCHA -->
+                <?php 
+                  $num1 = rand(1,9);
+                  $num2 = rand(1,9);
+                  $sum = $num1 + $num2;
+                  $_SESSION['captcha_sum'] = $sum;
+                ?>
+                <div class="col-md-6">
+                  <label for="captcha" class="form-label">What is <?php echo $num1 . " + " . $num2; ?> ?</label>
+                  <input type="number" id="captcha" name="captcha" class="form-control form-control-lg" required>
+                </div>
+
                 <div class="col-12 text-end">
-                  <button type="submit" class="btn btn-warning btn-lg rounded-pill px-4 shadow-glow">
-                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                  <button type="submit" id="submitBtn" class="btn btn-warning btn-lg rounded-pill px-4 shadow-glow">
+                    <span id="btnText"><i class="fas fa-paper-plane me-2"></i>Send Message</span>
+                    <span id="btnSpinner" class="spinner-border spinner-border-sm d-none"></span>
                   </button>
                 </div>
               </div>
@@ -108,75 +121,25 @@
   <div class="container" data-aos="fade-up">
     <h2 class="fw-bold text-center mb-5">Frequently Asked Questions</h2>
     <div class="accordion accordion-flush" id="faqAccordion">
-      
-      <!-- Q1 -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="faq1">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-            How do I track my shipment?
-          </button>
-        </h2>
-        <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            You can track your shipment in real-time using your tracking number on our “Track Order” page.
-          </div>
-        </div>
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq1">How do I track my shipment?</button></h2>
+        <div id="faq1" class="accordion-collapse collapse"><div class="accordion-body">Track your shipment in real-time using your tracking number on our “Track Order” page.</div></div>
       </div>
-
-      <!-- Q2 -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="faq2">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-            Do you handle international shipping?
-          </button>
-        </h2>
-        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Yes, we provide international freight forwarding, customs clearance, and door-to-door delivery services to 25+ countries.
-          </div>
-        </div>
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">Do you handle international shipping?</button></h2>
+        <div id="faq2" class="accordion-collapse collapse"><div class="accordion-body">Yes, we provide international freight forwarding, customs clearance, and door-to-door delivery services.</div></div>
       </div>
-
-      <!-- Q3 -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="faq3">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-            What are your delivery timelines?
-          </button>
-        </h2>
-        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Delivery timelines vary by service — same-day for local deliveries, 1-3 days nationwide, and 5-10 days internationally.
-          </div>
-        </div>
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">What are your delivery timelines?</button></h2>
+        <div id="faq3" class="accordion-collapse collapse"><div class="accordion-body">Same-day local, 1-3 days nationwide, and 5-10 days internationally.</div></div>
       </div>
-
-      <!-- Q4 -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="faq4">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4">
-            Do you provide warehousing services?
-          </button>
-        </h2>
-        <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Yes, we offer secure, temperature-controlled warehousing and inventory management for short- and long-term needs.
-          </div>
-        </div>
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">Do you provide warehousing services?</button></h2>
+        <div id="faq4" class="accordion-collapse collapse"><div class="accordion-body">Yes, we offer secure, temperature-controlled warehousing and inventory management.</div></div>
       </div>
-
-      <!-- Q5 -->
       <div class="accordion-item">
-        <h2 class="accordion-header" id="faq5">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse5">
-            What if my shipment is delayed or damaged?
-          </button>
-        </h2>
-        <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-          <div class="accordion-body">
-            Our support team is available 24/7. You can file a claim online, and we’ll ensure quick resolution with full transparency.
-          </div>
-        </div>
+        <h2 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">What if my shipment is delayed or damaged?</button></h2>
+        <div id="faq5" class="accordion-collapse collapse"><div class="accordion-body">Contact our 24/7 support to file a claim for a fast and transparent resolution.</div></div>
       </div>
     </div>
   </div>
@@ -190,13 +153,46 @@
 <script>
 AOS.init({ once: true, duration: 1000, easing: 'ease-in-out' });
 
-// Handle contact form submission (demo only)
-document.getElementById("contactForm").addEventListener("submit", function(e) {
+document.getElementById("contactForm").addEventListener("submit", async function(e) {
   e.preventDefault();
   const alertBox = document.getElementById("formAlert");
-  alertBox.classList.remove("d-none", "alert-danger");
-  alertBox.classList.add("alert-success");
-  alertBox.textContent = "✅ Thank you! Your message has been sent successfully.";
-  this.reset();
+  const submitBtn = document.getElementById("submitBtn");
+  const btnText = document.getElementById("btnText");
+  const btnSpinner = document.getElementById("btnSpinner");
+
+  // Show spinner and disable button
+  alertBox.classList.add("d-none");
+  submitBtn.disabled = true;
+  btnText.classList.add("d-none");
+  btnSpinner.classList.remove("d-none");
+
+  const formData = new FormData(this);
+
+  try {
+    const response = await fetch("app/controllers/send_contact.php", {
+      method: "POST",
+      body: formData
+    });
+    const result = await response.json();
+    alertBox.classList.remove("d-none");
+
+    if (result.status === "success") {
+      alertBox.className = "alert alert-success mt-3";
+      alertBox.textContent = result.message;
+      this.reset();
+    } else {
+      alertBox.className = "alert alert-danger mt-3";
+      alertBox.textContent = result.message;
+    }
+  } catch (error) {
+    alertBox.classList.remove("d-none");
+    alertBox.className = "alert alert-danger mt-3";
+    alertBox.textContent = "❌ Network or server error: " + error.message;
+  } finally {
+    // Reset button
+    submitBtn.disabled = false;
+    btnText.classList.remove("d-none");
+    btnSpinner.classList.add("d-none");
+  }
 });
 </script>
