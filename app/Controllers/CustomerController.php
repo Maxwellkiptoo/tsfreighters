@@ -127,4 +127,16 @@ class CustomerController
         // Load the view (adjust path as needed)
         require_once __DIR__ . '/../Views/home/service.php';
     }
+    public function about()
+    {
+        // Load the about model
+
+        // Load the view (adjust path as needed)
+        require_once __DIR__ . '/../Views/home/about.php';
+    }
+        public function contact()
+    {
+        require_once __DIR__ . '/../Views/home/contact.php';
+    }
 }
+
