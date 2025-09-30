@@ -106,70 +106,97 @@
   </div>
 </section>
 
-<!-- Shipping Calculator Section -->
-<section class="instant-solutions-section py-5 bg-light">
+<!-- INSTANT SOLUTIONS --> 
+<section class="instant-solutions-section py-5">
   <div class="container">
-    <h2 class="section-title text-center mb-5" data-aos="fade-up">Get a Shipping Quote</h2>
-
-    <div class="card shadow-lg p-4 p-md-5" data-aos="fade-up">
-      <div class="row g-3">
-        <!-- Service Type -->
-        <div class="col-md-4">
-          <label class="form-label fw-bold">Select Service</label>
-          <select id="serviceType" class="form-select form-select-lg">
-            <option value="freight">Freight Forwarding</option>
-            <option value="warehousing">Warehousing</option>
-            <option value="aircargo">Air Cargo</option>
-            <option value="lastmile">Last-Mile Delivery</option>
-          </select>
-        </div>
-
-        <!-- Weight -->
-        <div class="col-md-2">
-          <label class="form-label fw-bold">Weight (kg)</label>
-          <input type="number" id="weight" class="form-control form-control-lg" value="1" min="1">
-        </div>
-
-        <!-- Dimensions -->
-        <div class="col-md-2">
-          <label class="form-label fw-bold">Height (cm)</label>
-          <input type="number" id="height" class="form-control form-control-lg" step="0.01">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label fw-bold">Width (cm)</label>
-          <input type="number" id="width" class="form-control form-control-lg" step="0.01">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label fw-bold">Length (cm)</label>
-          <input type="number" id="length" class="form-control form-control-lg" step="0.01">
-        </div>
-
-        <!-- Locations -->
-        <div class="col-md-6 position-relative">
-          <label class="form-label fw-bold">From Location</label>
-          <input type="text" id="fromLocation" class="form-control form-control-lg" placeholder="e.g., Nairobi">
-          <div id="fromSuggestions" class="autocomplete-suggestions"></div>
-        </div>
-        <div class="col-md-6 position-relative">
-          <label class="form-label fw-bold">To Location</label>
-          <input type="text" id="toLocation" class="form-control form-control-lg" placeholder="e.g., Mombasa">
-          <div id="toSuggestions" class="autocomplete-suggestions"></div>
+    <h2 class="section-title text-center mb-5" data-aos="fade-up">Instant Solutions</h2>
+    <div class="row g-4 text-center">
+      <?php
+      $solutions = [
+        ["icon" => "fa-box-open", "title" => "Ship Now", "desc" => "Choose the best service for your shipment in minutes.", "btnText" => "Start Shipping", "btnLink" => "#", "color" => "text-primary-blue"],
+        ["icon" => "fa-calculator", "title" => "Get a Quote", "desc" => "Estimate & compare costs instantly.", "btnText" => "Calculate", "btnLink" => "#", "color" => "text-danger-red"],
+        ["icon" => "fa-briefcase", "title" => "For Business", "desc" => "Regular shipping? Get a business account.", "btnText" => "Apply Now", "btnLink" => "#", "color" => "text-warning-yellow"],
+        ["icon" => "fa-file-contract", "title" => "Tariff Updates", "desc" => "Latest tariffs and compliance updates.", "btnText" => "View Updates", "btnLink" => "#", "color" => "text-primary-blue"]
+      ];
+      foreach ($solutions as $i => $item): ?>
+      <div class="col-md-3 col-sm-6" data-aos="fade-up" data-aos-delay="<?= ($i+1)*150 ?>">
+        <div class="solution-card shadow rounded p-4 h-100 d-flex flex-column justify-content-between">
+          <i class="fas <?= htmlspecialchars($item['icon']) ?> fa-3x <?= htmlspecialchars($item['color']) ?> mb-3"></i>
+          <h6 class="fw-bold"><?= htmlspecialchars($item['title']) ?></h6>
+          <p><?= htmlspecialchars($item['desc']) ?></p>
+          <a href="<?= htmlspecialchars($item['btnLink']) ?>" class="btn btn-outline-danger rounded-pill mt-3 ship-now-btn"><?= htmlspecialchars($item['btnText']) ?></a>
         </div>
       </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
 
-      <!-- Shipping Cost Display -->
-      <div class="text-center mt-4">
-        <h4>Your Shipping Cost: <span id="shippingCost" class="badge badge-freight fs-5 px-4 py-2">$0.00</span></h4>
-        <p id="routeInfo" class="text-muted mt-2"></p>
+<!-- Ship Now Modal -->
+<div class="modal fade" id="shipNowModal" tabindex="-1" aria-labelledby="shipNowModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="shipNowModalLabel"><i class="fas fa-box-open me-2"></i>Ship Now</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-
-      <!-- Submit Button -->
-      <div class="text-center mt-4">
-        <button class="btn btn-primary btn-lg shadow" onclick="alert('This feature can be connected to email/checkout!')">
-          Request Quote
-        </button>
+      <div class="modal-body">
+        <form id="shipNowForm">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Product Name</label>
+              <input type="text" class="form-control" name="product_name" placeholder="Enter product name" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Service Type</label>
+              <select class="form-select" name="service_type" required>
+                <option value="">Select service</option>
+                <option value="freight">Freight Forwarding</option>
+                <option value="warehousing">Warehousing</option>
+                <option value="aircargo">Air Cargo</option>
+                <option value="lastmile">Last-Mile Delivery</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Weight (kg)</label>
+              <input type="number" class="form-control" name="weight" min="1" value="1" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Dimensions (cm)</label>
+              <div class="d-flex gap-2">
+                <input type="number" class="form-control" name="length" placeholder="L" step="0.01" required>
+                <input type="number" class="form-control" name="width" placeholder="W" step="0.01" required>
+                <input type="number" class="form-control" name="height" placeholder="H" step="0.01" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Delivery Type</label>
+              <select class="form-select" name="delivery_type" required>
+                <option value="">Choose type</option>
+                <option value="delivery">Delivery</option>
+                <option value="store">Store / Warehousing</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Additional Notes</label>
+              <textarea class="form-control" name="notes" rows="3" placeholder="Any extra instructions..."></textarea>
+            </div>
+          </div>
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-outline-danger rounded-pill">Submit Request</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- CALL TO ACTION --> 
+<section class="cta-section py-5 text-white text-center" data-aos="zoom-in">
+  <div class="container">
+    <h3 class="mb-3">Ready to Ship with <strong>TS Freighters</strong>?</h3>
+    <p class="mb-4">Contact us or request a quote to begin your journey.</p>
+    <a href="index.php?controller=customer&action=contact" class="btn btn-light btn-lg rounded-pill">Contact Us</a>
   </div>
 </section>
 
@@ -179,145 +206,17 @@
 <script>
 AOS.init();
 
-// Clean list of cities with distances (from Nairobi)
-const cities = {
-  "Nairobi":0, "Mombasa":484, "Kisumu":337, "Eldoret":311, "Nakuru":158, "Thika":42, "Malindi":581,
-  "Kitale":410, "Naivasha":141, "Machakos":63, "Kisii":350, "Embu":125, "Kericho":300, "Kakamega":400,
-  "Garissa":350, "Lamu":700, "Voi":500, "Iten":320, "Mumias":420, "Webuye":430, "Lodwar":800, "Mandera":900,
-  "Isiolo":300, "Nyeri":150, "Rongai":60, "Kajiado":70, "Kitui":190, "Bungoma":470, "Busia":500,
-  "Makueni":130, "Migori":500, "Moyale":800, "Molo":270, "Maralal":500, "Nyahururu":150, "Pumwani":10,
-  "Kabarnet":400, "Athi River":20, "Karuri":194, "Kiambu":21, "Ol Kalou":47, "Meru":47, "Kilifi":46,
-  "Wajir":45, "Lugulu":40, "Homa Bay":40, "Nanyuki":36, "Narok":36
-};
-
-// Autocomplete function
-function autocomplete(input, suggestionsDiv) {
-    input.addEventListener('input', () => {
-        const value = input.value.toLowerCase();
-        suggestionsDiv.innerHTML = '';
-        if (!value) return;
-        Object.keys(cities).forEach(city => {
-            if(city.toLowerCase().startsWith(value)) {
-                const div = document.createElement('div');
-                div.classList.add('autocomplete-suggestion');
-                div.innerText = city;
-                div.addEventListener('click', () => {
-                    input.value = city;
-                    suggestionsDiv.innerHTML = '';
-                    calculateShipping();
-                });
-                suggestionsDiv.appendChild(div);
-            }
-        });
-    });
-    document.addEventListener('click', (e) => {
-        if(e.target !== input) suggestionsDiv.innerHTML = '';
-    });
-}
-
-// Calculate distance
-function getDistance(from, to) {
-    const fromDist = cities[from] || 0;
-    const toDist = cities[to] || 0;
-    return Math.abs(toDist - fromDist);
-}
-
-// Shipping calculation
-function calculateShipping() {
-    const service = document.getElementById('serviceType').value;
-    const weight = parseFloat(document.getElementById('weight').value) || 0;
-    const height = parseFloat(document.getElementById('height').value) || 0;
-    const width = parseFloat(document.getElementById('width').value) || 0;
-    const length = parseFloat(document.getElementById('length').value) || 0;
-    const from = document.getElementById('fromLocation').value.trim();
-    const to = document.getElementById('toLocation').value.trim();
-
-    const distanceKm = getDistance(from, to);
-    const volumetric = height * width * length * 0.01;
-
-    let cost = 0;
-    let badgeClass = 'badge-freight';
-
-    switch(service){
-        case 'freight': cost = (weight*20 + volumetric + distanceKm)*2; badgeClass='badge-freight'; break;
-        case 'warehousing': cost = (weight>10 ? Math.ceil(weight/10)*10 : 0) + volumetric + distanceKm; badgeClass='badge-warehousing'; break;
-        case 'aircargo': cost = distanceKm*3 + weight*20 + volumetric; badgeClass='badge-aircargo'; break;
-        case 'lastmile': cost = distanceKm*1 + weight*20 + volumetric; badgeClass='badge-lastmile'; break;
-    }
-
-    const costEl = document.getElementById('shippingCost');
-    const current = parseFloat(costEl.getAttribute('data-current') || 0);
-    const target = cost;
-    let start = null;
-
-    function animate(timestamp){
-        if(!start) start = timestamp;
-        const progress = timestamp - start;
-        const newCost = current + (target-current) * Math.min(progress/500,1);
-        costEl.innerText = `$${newCost.toFixed(2)}`;
-        if(progress < 500) requestAnimationFrame(animate);
-        else costEl.setAttribute('data-current', target);
-    }
-    requestAnimationFrame(animate);
-
-    costEl.className = `badge ${badgeClass}`;
-    document.getElementById('routeInfo').innerText = `Route: ${from || 'N/A'} → ${to || 'N/A'} (${distanceKm} km)`;
-}
-
-// Initialize autocomplete
-autocomplete(document.getElementById('fromLocation'), document.getElementById('fromSuggestions'));
-autocomplete(document.getElementById('toLocation'), document.getElementById('toSuggestions'));
-
-// Event listeners
-['serviceType','weight','height','width','length','fromLocation','toLocation'].forEach(id => {
-    document.getElementById(id).addEventListener('input', calculateShipping);
+// Open Ship Now modal when clicking Start Shipping
+document.querySelectorAll('.ship-now-btn').forEach(btn=>{
+    btn.setAttribute('data-bs-toggle','modal');
+    btn.setAttribute('data-bs-target','#shipNowModal');
 });
 
-// Initial calculation
-calculateShipping();
+// Optional: handle form submission
+document.getElementById('shipNowForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    alert('Your shipping request has been submitted!');
+    var modal = bootstrap.Modal.getInstance(document.getElementById('shipNowModal'));
+    modal.hide();
+});
 </script>
-<style>
-/* Card styling */
-.instant-solutions-section .card {
-    border-radius: 1rem;
-    background: #ffffff;
-}
-
-/* Highlight badges */
-#shippingCost {
-    font-weight: 600;
-    border-radius: 1rem;
-}
-
-/* Form labels */
-.form-label {
-    font-size: 0.95rem;
-}
-
-/* Autocomplete suggestions */
-.autocomplete-suggestions {
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    max-height: 200px;
-    overflow-y: auto;
-    background-color: #fff;
-    position: absolute;
-    width: 100%;
-    z-index: 9999;
-    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1);
-}
-.autocomplete-suggestion {
-    padding: 0.5rem 0.75rem;
-    cursor: pointer;
-}
-.autocomplete-suggestion:hover {
-    background-color: #f8f9fa;
-}
-
-/* Button hover */
-.btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-    transition: 0.3s;
-}
-</style>
