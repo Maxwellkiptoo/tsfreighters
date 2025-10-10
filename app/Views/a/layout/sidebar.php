@@ -161,12 +161,6 @@
   <a href="#"><i class="fa fa-sign-out-alt"></i> <span>Logout</span></a>
 </div>
 
-<!-- Page Content -->
-<div class="main-content">
-  <h1>Welcome to Admin Dashboard</h1>
-  <p>This is your fully responsive and single-icon sidebar system.</p>
-</div>
-
 <!-- JavaScript -->
 <script>
 const toggleBtn = document.getElementById('menuToggle');
