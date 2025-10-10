@@ -17,15 +17,6 @@ body {
   overflow-x: hidden;
 }
 .main-content { margin-left:250px; padding:30px; }
-header { background:linear-gradient(90deg,#10b981,#047857); padding:18px 30px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; color:white; box-shadow:0 4px 12px rgba(0,0,0,0.1); position:sticky; top:0; z-index:50; }
-header h1 { font-size:22px; font-weight:600; margin:0; }
-header .user { display:flex; align-items:center; font-weight:500; background:rgba(255,255,255,0.15); padding:8px 15px; border-radius:30px; cursor:pointer; position:relative; }
-header .user i { margin-right:10px; font-size:20px; }
-.profile-dropdown { display:none; position:absolute; top:50px; right:0; background:#fff; border-radius:8px; box-shadow:0 4px 10px rgba(0,0,0,0.1); overflow:hidden; }
-.profile-dropdown a { display:block; padding:10px 20px; color:#111827; text-decoration:none; transition:0.3s; }
-.profile-dropdown a:hover { background:#f3f4f6; }
-.user.active .profile-dropdown { display:block; }
-
 /* Dashboard Cards */
 .dashboard-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:25px; margin-top:30px; }
 .card { background:white; padding:25px 20px; border-radius:16px; box-shadow:0 4px 10px rgba(0,0,0,0.08); text-align:center; transition:all 0.3s ease; cursor:pointer; }
