@@ -1,0 +1,81 @@
+/* Logistics Admin Dashboard CSS */
+
+body {
+  background-color: #f8f9fb;
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar {
+  border-bottom: 1px solid #e6e9ef;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.icon {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table thead {
+  background-color: #f1f4f9;
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.card-header {
+  font-weight: 600;
+}
+
+.main-content {
+  margin-left: 230px; 
+  padding: 20px;
+}
+
+.sidebar {
+  background-color: #0d6efd;
+  color: #fff;
+  position: fixed;
+  height: 100%;
+  width: 230px;
+  top: 0;
+  left: 0;
+  padding: 20px 10px;
+}
+
+.sidebar a {
+  color: #e8e8e8;
+  display: block;
+  text-decoration: none;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.sidebar a:hover, .sidebar a.active {
+  background: #0b5ed7;
+  color: #fff;
+}
+
+footer {
+  margin-top: 30px;
+  padding: 15px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+}
