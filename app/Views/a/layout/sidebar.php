@@ -1,4 +1,6 @@
-<!-- ✅ Updated Sidebar -->
+<!-- ✅ Final Responsive Collapsible Sidebar (Single Icon) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 /* Sidebar container */
 .sidebar {
@@ -12,6 +14,12 @@
   padding: 20px 0;
   transition: all 0.3s ease;
   overflow-y: auto;
+  z-index: 1000;
+}
+
+/* Sidebar collapsed */
+.sidebar.collapsed {
+  width: 80px;
 }
 
 /* Logo / Title */
@@ -22,6 +30,14 @@
   font-weight: 700;
   font-size: 1.4rem;
   letter-spacing: 1px;
+  transition: opacity 0.3s, margin 0.3s;
+}
+
+.sidebar.collapsed h2 {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 /* Sidebar links */
@@ -35,6 +51,7 @@
   border-left: 4px solid transparent;
   transition: all 0.3s ease;
   font-size: 15px;
+  white-space: nowrap;
 }
 
 .sidebar a i {
@@ -43,6 +60,11 @@
   margin-right: 12px;
   font-size: 18px;
   transition: 0.3s;
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed a span {
+  display: none;
 }
 
 /* Hover & Active */
@@ -66,9 +88,8 @@
   border-radius: 10px;
 }
 
-/* Mobile toggle */
+/* Toggle button (single use for both modes) */
 .toggle-btn {
-  display: none;
   position: fixed;
   top: 15px;
   left: 15px;
@@ -79,36 +100,95 @@
   font-size: 20px;
   border-radius: 6px;
   cursor: pointer;
-  z-index: 1001;
+  z-index: 1100;
+  transition: all 0.3s ease;
+}
+
+/* Smooth page content shift */
+.main-content {
+  margin-left: 260px;
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.sidebar.collapsed ~ .main-content {
+  margin-left: 80px;
+}
+
+/* Responsive behavior */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 80px;
+  }
+  .sidebar a span,
+  .sidebar h2 {
+    display: none;
+  }
+  .main-content {
+    margin-left: 80px;
+  }
 }
 
 @media (max-width: 768px) {
   .sidebar {
     left: -260px;
+    width: 260px;
   }
 
   .sidebar.active {
     left: 0;
   }
 
-  .toggle-btn {
-    display: block;
+  .main-content {
+    margin-left: 0;
   }
 }
 </style>
 
-<!-- Toggle Button -->
-<button class="toggle-btn" onclick="document.querySelector('.sidebar').classList.toggle('active')">
+<!-- Single Toggle Button -->
+<button class="toggle-btn" id="menuToggle">
   <i class="fa fa-bars"></i>
 </button>
 
 <!-- Sidebar -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
   <h2>Admin Panel</h2>
-  <a href="#" class="active"><i class="fa fa-home"></i> Dashboard</a>
-  <a href="#"><i class="fa fa-truck"></i> Shipments</a>
-  <a href="#"><i class="fa fa-users"></i> Clients</a>
-  <a href="#"><i class="fa fa-chart-line"></i> Reports</a>
-  <a href="#"><i class="fa fa-cogs"></i> Settings</a>
-  <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
+  <a href="#" class="active"><i class="fa fa-home"></i> <span>Dashboard</span></a>
+  <a href="#"><i class="fa fa-truck"></i> <span>Shipments</span></a>
+  <a href="#"><i class="fa fa-users"></i> <span>Clients</span></a>
+  <a href="#"><i class="fa fa-chart-line"></i> <span>Reports</span></a>
+  <a href="#"><i class="fa fa-cogs"></i> <span>Settings</span></a>
+  <a href="#"><i class="fa fa-sign-out-alt"></i> <span>Logout</span></a>
 </div>
+
+<!-- Page Content -->
+<div class="main-content">
+  <h1>Welcome to Admin Dashboard</h1>
+  <p>This is your fully responsive and single-icon sidebar system.</p>
+</div>
+
+<!-- JavaScript -->
+<script>
+const toggleBtn = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+
+toggleBtn.addEventListener('click', () => {
+  // On desktop, collapse; on mobile, slide toggle
+  if (window.innerWidth <= 768) {
+    sidebar.classList.toggle('active');
+  } else {
+    sidebar.classList.toggle('collapsed');
+  }
+
+  // Change icon depending on state
+  if (window.innerWidth <= 768) {
+    toggleBtn.innerHTML = sidebar.classList.contains('active')
+      ? '<i class="fa fa-times"></i>'
+      : '<i class="fa fa-bars"></i>';
+  } else {
+    toggleBtn.innerHTML = sidebar.classList.contains('collapsed')
+      ? '<i class="fa fa-angle-double-right"></i>'
+      : '<i class="fa fa-angle-double-left"></i>';
+  }
+});
+</script>
