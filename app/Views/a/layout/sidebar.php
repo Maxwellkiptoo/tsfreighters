@@ -248,12 +248,30 @@
     <p>Administrator</p>
   </div>
 
-  <a href="#" class="active"><i class="fa fa-home"></i> <span>Dashboard</span></a>
-  <a href="#"><i class="fa fa-truck"></i> <span>Shipments</span></a>
-  <a href="#"><i class="fa fa-users"></i> <span>Clients</span></a>
-  <a href="#"><i class="fa fa-chart-line"></i> <span>Reports</span></a>
-  <a href="#"><i class="fa fa-cogs"></i> <span>Settings</span></a>
-  <a href="#"><i class="fa fa-sign-out-alt"></i> <span>Logout</span></a>
+  <!-- ✅ Sidebar Links -->
+  <a href="index.php?controller=customer&action=dash" class="<?php echo ($_GET['action'] ?? '') === 'dash' ? 'active' : ''; ?>">
+    <i class="fa fa-home"></i> <span>Dashboard</span>
+  </a>
+
+  <a href="index.php?controller=shipment&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'shipment' ? 'active' : ''; ?>">
+    <i class="fa fa-truck"></i> <span>Shipments</span>
+  </a>
+
+  <a href="index.php?controller=customer&action=clients" class="<?php echo ($_GET['action'] ?? '') === 'clients' ? 'active' : ''; ?>">
+    <i class="fa fa-users"></i> <span>Clients</span>
+  </a>
+
+  <a href="index.php?controller=report&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'report' ? 'active' : ''; ?>">
+    <i class="fa fa-chart-line"></i> <span>Reports</span>
+  </a>
+
+  <a href="index.php?controller=settings&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'settings' ? 'active' : ''; ?>">
+    <i class="fa fa-cogs"></i> <span>Settings</span>
+  </a>
+
+  <a href="index.php?controller=customer&action=logout">
+    <i class="fa fa-sign-out-alt"></i> <span>Logout</span>
+  </a>
 </div>
 
 <!-- Header -->

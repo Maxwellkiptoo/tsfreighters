@@ -142,5 +142,14 @@ class CustomerController
     {
         require_once __DIR__ . '/../Views/auth/login.php';
     }
+public function clients()
+{
+    require_once __DIR__ . '/../Views/a/client.php';
+}
+    public function dash()
+    {
+        require_once __DIR__ . '/../Views/a/dash.php';
+    }
+
 }
 
