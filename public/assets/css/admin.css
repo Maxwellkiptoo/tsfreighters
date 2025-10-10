@@ -7,65 +7,66 @@ body {
   background-color: #f8f9fc;
   color: #333;
   margin: 0;
+  overflow-x: hidden;
 }
 
 /* ===== Sidebar ===== */
 .sidebar {
   width: 240px;
-  background: #1a2238;
+  background: linear-gradient(180deg, #1a2238 0%, #0e1425 100%);
   color: #fff;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   z-index: 1030;
-  transition: all 0.3s ease-in-out;
   padding-top: 1rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar .nav-item {
   padding: 12px 20px;
-  margin: 5px 0;
+  margin: 5px 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
-  border-radius: 8px;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, padding-left 0.3s ease;
 }
 
-.sidebar .nav-item:hover,
-.sidebar .nav-item.active {
-  background: #293259;
+.sidebar .nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  padding-left: 25px;
 }
 
 .sidebar .nav-item i {
-  margin-right: 10px;
+  margin-right: 12px;
   font-size: 1.2rem;
 }
 
 .sidebar .nav-item span {
-  font-weight: 500;
   font-size: 0.95rem;
+  font-weight: 500;
 }
 
 /* ===== Main Content ===== */
 .main-content {
   margin-left: 240px;
-  padding: 20px;
+  padding: 25px;
   transition: margin-left 0.3s ease;
 }
 
 /* ===== Navbar ===== */
 .navbar {
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .navbar .navbar-brand {
-  font-size: 1.2rem;
+  font-weight: 600;
 }
 
-.navbar .dropdown-menu {
-  font-size: 0.9rem;
+.dropdown-menu {
   border-radius: 10px;
+  font-size: 0.9rem;
 }
 
 /* ===== Stat Cards ===== */
@@ -76,8 +77,8 @@ body {
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card .icon {
@@ -89,36 +90,32 @@ body {
 }
 
 /* ===== Tables ===== */
-.table {
-  font-size: 0.9rem;
-}
-
 .table thead {
-  background: #f1f3f9;
+  background-color: #f1f3f9;
   font-weight: 600;
 }
 
 .badge {
   font-size: 0.75rem;
-  padding: 5px 10px;
-  border-radius: 10px;
+  padding: 6px 12px;
+  border-radius: 12px;
 }
 
 /* ===== Cards ===== */
 .card {
-  border-radius: 12px;
+  border-radius: 14px;
 }
 
 .card-header {
-  border-bottom: 1px solid #eee;
   background: #fff;
+  border-bottom: 1px solid #eee;
 }
 
 /* ===== Activity List ===== */
 .list-group-item {
-  font-size: 0.9rem;
   border: none;
   border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
 }
 
 .list-group-item:last-child {
@@ -146,46 +143,14 @@ body {
   }
 }
 
-/* ===== Utility ===== */
-.text-primary {
-  color: #0066ff !important;
-}
-
-.bg-primary {
-  background-color: #0066ff !important;
-}
-
-.bg-success {
-  background-color: #28a745 !important;
-}
-
-.bg-warning {
-  background-color: #ffc107 !important;
-}
-
-.bg-danger {
-  background-color: #dc3545 !important;
-}
-
-.shadow-sm {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-}
-
-small {
-  font-size: 0.8rem;
-  opacity: 0.9;
-}
-
-/* ===== Scrollbar Styling ===== */
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 6px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #888;
 }
