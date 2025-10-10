@@ -1,10 +1,8 @@
 <?php include 'layout/header.php'; ?>
 <?php include 'layout/sidebar.php'; ?>
 
-<head></head>
+<link href="/tsfreighters/assets/css/admin.css" rel="stylesheet">
 
-    <link href="/tsfreighters/assets/css/admin.css" rel="stylesheet">
-</head>
 <div class="main-content">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg px-3 py-2 bg-white shadow-sm sticky-top">
@@ -34,7 +32,7 @@
     <div class="row g-3">
       <div class="col-md-3">
         <div class="card border-0 shadow-sm p-3 text-center stat-card">
-          <div class="icon bg-primary bg-opacity-10 text-primary rounded-circle mx-auto p-3 mb-2">
+          <div class="icon bg-primary text-white rounded-circle mx-auto p-3 mb-2">
             <i class="bi bi-box-seam fs-2"></i>
           </div>
           <h6 class="text-muted">Total Shipments</h6>
@@ -45,7 +43,7 @@
 
       <div class="col-md-3">
         <div class="card border-0 shadow-sm p-3 text-center stat-card">
-          <div class="icon bg-success bg-opacity-10 text-success rounded-circle mx-auto p-3 mb-2">
+          <div class="icon bg-success text-white rounded-circle mx-auto p-3 mb-2">
             <i class="bi bi-truck fs-2"></i>
           </div>
           <h6 class="text-muted">Active Deliveries</h6>
@@ -56,7 +54,7 @@
 
       <div class="col-md-3">
         <div class="card border-0 shadow-sm p-3 text-center stat-card">
-          <div class="icon bg-warning bg-opacity-10 text-warning rounded-circle mx-auto p-3 mb-2">
+          <div class="icon bg-warning text-white rounded-circle mx-auto p-3 mb-2">
             <i class="bi bi-people fs-2"></i>
           </div>
           <h6 class="text-muted">Registered Customers</h6>
@@ -67,7 +65,7 @@
 
       <div class="col-md-3">
         <div class="card border-0 shadow-sm p-3 text-center stat-card">
-          <div class="icon bg-danger bg-opacity-10 text-danger rounded-circle mx-auto p-3 mb-2">
+          <div class="icon bg-danger text-white rounded-circle mx-auto p-3 mb-2">
             <i class="bi bi-cash-stack fs-2"></i>
           </div>
           <h6 class="text-muted">Total Revenue</h6>
@@ -130,9 +128,9 @@
             <div class="card-header bg-white fw-semibold">
               <i class="bi bi-geo-alt me-2 text-danger"></i> Active Routes
             </div>
-            <div class="card-body">
-              <img src="https://www.google.com/maps/d/thumbnail?mid=1d-FakeMapExample&hl=en" class="img-fluid rounded shadow-sm" alt="Map overview">
-              <p class="mt-2 small text-muted text-center">Live tracking map of ongoing deliveries.</p>
+            <div class="card-body text-center">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/BlankMap-Africa.svg/500px-BlankMap-Africa.svg.png" class="img-fluid rounded shadow-sm" alt="Map overview">
+              <p class="mt-2 small text-muted">Live tracking map of ongoing deliveries.</p>
             </div>
           </div>
         </div>
@@ -140,7 +138,7 @@
     </div>
 
     <!-- System Activity -->
-    <div class="mt-5">
+    <div class="mt-5 mb-5">
       <div class="card shadow-sm border-0">
         <div class="card-header bg-white fw-semibold">
           <i class="bi bi-activity me-2 text-info"></i> System Activity
@@ -155,16 +153,7 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
-<style>
-  .stat-card:hover {
-    transform: translateY(-3px);
-    transition: 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-</style>
 
 <?php include 'layout/footer.php'; ?>
