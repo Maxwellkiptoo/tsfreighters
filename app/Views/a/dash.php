@@ -1,170 +1,261 @@
-<?php include 'layout/header.php'; ?>
-<?php include 'layout/sidebar.php'; ?>
-
-<div class="main-content" style="margin-left:250px; background-color:#f8f9fa; min-height:100vh;">
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg px-3 py-2 bg-white shadow-sm sticky-top" style="border-bottom:1px solid #ddd;">
-    <div class="container-fluid">
-      <span class="navbar-brand fw-semibold text-primary" style="font-weight:600;">TSFreighters Admin</span>
-      <div class="d-flex align-items-center">
-        <i class="bi bi-bell me-3 fs-5 text-secondary" style="cursor:pointer;"></i>
-        <div class="dropdown">
-          <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle fs-4 me-2 text-primary"></i>
-            <span>Admin</span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-            <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
-            <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Dashboard Content -->
-  <div class="container-fluid mt-4">
-    <h4 class="fw-bold text-secondary mb-4" style="font-weight:700; color:#555;">Dashboard Overview</h4>
-
-    <!-- Stats Cards -->
-    <div class="row g-3">
-      <!-- Total Shipments -->
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center" style="border-radius:12px; background:white; transition:0.3s;">
-          <div class="icon bg-primary bg-opacity-10 text-primary rounded-circle mx-auto p-3 mb-2" style="background:#e7f1ff;">
-            <i class="bi bi-box-seam fs-2"></i>
-          </div>
-          <h6 class="text-muted">Total Shipments</h6>
-          <h3 class="fw-bold">120</h3>
-          <small class="text-success"><i class="bi bi-graph-up"></i> +5% this week</small>
-        </div>
-      </div>
-
-      <!-- Active Deliveries -->
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center" style="border-radius:12px; background:white; transition:0.3s;">
-          <div class="icon bg-success bg-opacity-10 text-success rounded-circle mx-auto p-3 mb-2" style="background:#e9f8ef;">
-            <i class="bi bi-truck fs-2"></i>
-          </div>
-          <h6 class="text-muted">Active Deliveries</h6>
-          <h3 class="fw-bold">85</h3>
-          <small class="text-success"><i class="bi bi-arrow-up-right"></i> +3 ongoing</small>
-        </div>
-      </div>
-
-      <!-- Registered Customers -->
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center" style="border-radius:12px; background:white; transition:0.3s;">
-          <div class="icon bg-warning bg-opacity-10 text-warning rounded-circle mx-auto p-3 mb-2" style="background:#fff8e1;">
-            <i class="bi bi-people fs-2"></i>
-          </div>
-          <h6 class="text-muted">Registered Customers</h6>
-          <h3 class="fw-bold">230</h3>
-          <small class="text-secondary"><i class="bi bi-person-plus"></i> +8 new today</small>
-        </div>
-      </div>
-
-      <!-- Total Revenue -->
-      <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center" style="border-radius:12px; background:white; transition:0.3s;">
-          <div class="icon bg-danger bg-opacity-10 text-danger rounded-circle mx-auto p-3 mb-2" style="background:#fdeaea;">
-            <i class="bi bi-cash-stack fs-2"></i>
-          </div>
-          <h6 class="text-muted">Total Revenue</h6>
-          <h3 class="fw-bold">$45,000</h3>
-          <small class="text-success"><i class="bi bi-graph-up-arrow"></i> +12% growth</small>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent Shipments and Map -->
-    <div class="mt-5 row">
-      <div class="col-md-8">
-        <div class="card shadow-sm border-0" style="border-radius:12px;">
-          <div class="card-header bg-white fw-semibold" style="font-weight:600;">
-            <i class="bi bi-clock-history me-2 text-primary"></i> Recent Shipments
-          </div>
-          <div class="card-body">
-            <table class="table align-middle">
-              <thead class="table-light">
-                <tr>
-                  <th>Tracking #</th>
-                  <th>Customer</th>
-                  <th>Status</th>
-                  <th>Location</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>TSF-98423</td>
-                  <td>John Doe</td>
-                  <td><span class="badge bg-success">Delivered</span></td>
-                  <td>Nairobi</td>
-                  <td>10 Oct 2025</td>
-                </tr>
-                <tr>
-                  <td>TSF-98422</td>
-                  <td>Mary Ann</td>
-                  <td><span class="badge bg-warning text-dark">In Transit</span></td>
-                  <td>Mombasa</td>
-                  <td>09 Oct 2025</td>
-                </tr>
-                <tr>
-                  <td>TSF-98421</td>
-                  <td>Alex Kim</td>
-                  <td><span class="badge bg-danger">Delayed</span></td>
-                  <td>Kisumu</td>
-                  <td>08 Oct 2025</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Map Section -->
-      <div class="col-md-4">
-        <div class="card shadow-sm border-0" style="border-radius:12px;">
-          <div class="card-header bg-white fw-semibold" style="font-weight:600;">
-            <i class="bi bi-geo-alt me-2 text-danger"></i> Active Routes
-          </div>
-          <div class="card-body text-center">
-            <img src="https://www.google.com/maps/d/thumbnail?mid=1d-FakeMapExample&hl=en"
-                 class="img-fluid rounded shadow-sm" alt="Map overview" 
-                 style="border-radius:10px;">
-            <p class="mt-2 small text-muted">Live tracking map of ongoing deliveries.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- System Activity -->
-    <div class="mt-5">
-      <div class="card shadow-sm border-0" style="border-radius:12px;">
-        <div class="card-header bg-white fw-semibold" style="font-weight:600;">
-          <i class="bi bi-activity me-2 text-info"></i> System Activity
-        </div>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="bi bi-check-circle text-success me-2"></i> New shipment created for <strong>TSF-98500</strong></li>
-            <li class="list-group-item"><i class="bi bi-truck text-primary me-2"></i> Driver <strong>Daniel</strong> departed for Mombasa delivery</li>
-            <li class="list-group-item"><i class="bi bi-person-plus text-warning me-2"></i> New customer <strong>Jane Mwangi</strong> registered</li>
-            <li class="list-group-item"><i class="bi bi-cash text-success me-2"></i> Payment received for <strong>TSF-98415</strong></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
+<?php
+// dashboard.php (Frontend mockup)
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logistics Admin Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-</style>
+/* ===== Inline Dashboard CSS ===== */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f6fa;
+  color: #333;
+}
 
-<?php include 'layout/footer.php'; ?>
+.sidebar {
+  width: 250px;
+  background: #111827;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+  padding: 20px 0;
+}
+
+.sidebar h2 {
+  text-align: center;
+  color: #10b981;
+  margin-bottom: 40px;
+}
+
+.sidebar a {
+  display: block;
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 12px 25px;
+  margin: 5px 0;
+  border-left: 4px solid transparent;
+  transition: 0.3s;
+}
+
+.sidebar a:hover, .sidebar a.active {
+  background: #1f2937;
+  border-left: 4px solid #10b981;
+  color: #fff;
+}
+
+.main-content {
+  margin-left: 250px;
+  padding: 30px;
+}
+
+header {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header .user {
+  display: flex;
+  align-items: center;
+}
+
+header .user i {
+  margin-right: 10px;
+  color: #10b981;
+}
+
+/* Cards */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card i {
+  font-size: 25px;
+  color: #10b981;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Table */
+.table-section {
+  background: white;
+  margin-top: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 20px;
+}
+
+.table-section h2 {
+  margin-bottom: 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  text-align: left;
+  padding: 12px;
+}
+
+table th {
+  background: #10b981;
+  color: white;
+}
+
+table tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Footer */
+footer {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <h2>Admin Panel</h2>
+  <a href="#" class="active"><i class="fa fa-home"></i> Dashboard</a>
+  <a href="#"><i class="fa fa-truck"></i> Shipments</a>
+  <a href="#"><i class="fa fa-users"></i> Clients</a>
+  <a href="#"><i class="fa fa-chart-line"></i> Reports</a>
+  <a href="#"><i class="fa fa-cogs"></i> Settings</a>
+  <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+  <header>
+    <h1>Dashboard Overview</h1>
+    <div class="user">
+      <i class="fa fa-user-circle"></i> Admin
+    </div>
+  </header>
+
+  <!-- Cards -->
+  <div class="dashboard-cards">
+    <div class="card">
+      <i class="fa fa-truck"></i>
+      <h3>1,248</h3>
+      <p>Total Shipments</p>
+    </div>
+    <div class="card">
+      <i class="fa fa-box"></i>
+      <h3>326</h3>
+      <p>In Transit</p>
+    </div>
+    <div class="card">
+      <i class="fa fa-check-circle"></i>
+      <h3>899</h3>
+      <p>Delivered</p>
+    </div>
+    <div class="card">
+      <i class="fa fa-exclamation-triangle"></i>
+      <h3>23</h3>
+      <p>Delayed</p>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-section">
+    <h2>Recent Shipments</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tracking ID</th>
+          <th>Client</th>
+          <th>Origin</th>
+          <th>Destination</th>
+          <th>Status</th>
+          <th>Expected Delivery</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#TRK9472</td>
+          <td>John Doe</td>
+          <td>Nairobi</td>
+          <td>Mombasa</td>
+          <td><span style="color:orange;">In Transit</span></td>
+          <td>12 Oct 2025</td>
+        </tr>
+        <tr>
+          <td>#TRK3289</td>
+          <td>Mary Atieno</td>
+          <td>Kisumu</td>
+          <td>Nakuru</td>
+          <td><span style="color:green;">Delivered</span></td>
+          <td>9 Oct 2025</td>
+        </tr>
+        <tr>
+          <td>#TRK6645</td>
+          <td>Peter Kariuki</td>
+          <td>Nairobi</td>
+          <td>Eldoret</td>
+          <td><span style="color:red;">Delayed</span></td>
+          <td>Pending</td>
+        </tr>
+        <tr>
+          <td>#TRK5567</td>
+          <td>Jane Mwangi</td>
+          <td>Malindi</td>
+          <td>Kisii</td>
+          <td><span style="color:green;">Delivered</span></td>
+          <td>8 Oct 2025</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>© 2025 Nexbridge Logistics Admin Panel</footer>
+</div>
+
+</body>
+</html>
