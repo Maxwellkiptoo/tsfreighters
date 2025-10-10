@@ -1,4 +1,4 @@
-<?php include 'includes/menu.php'; ?>
+<?php include 'layout/sidebar.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
