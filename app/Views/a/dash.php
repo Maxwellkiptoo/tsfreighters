@@ -16,7 +16,6 @@ body {
   color: #333;
   overflow-x: hidden;
 }
-.sidebar { width:250px; background:#111827; height:100vh; position:fixed; top:0; left:0; color:white; padding:20px 0; z-index:10; }
 .main-content { margin-left:250px; padding:30px; }
 header { background:linear-gradient(90deg,#10b981,#047857); padding:18px 30px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; color:white; box-shadow:0 4px 12px rgba(0,0,0,0.1); position:sticky; top:0; z-index:50; }
 header h1 { font-size:22px; font-weight:600; margin:0; }
@@ -58,15 +57,6 @@ footer{margin-top:40px;text-align:center;font-size:14px;color:#6b7280;}
 <body>
 
 <div class="main-content">
-  <header>
-    <h1>Dashboard Overview</h1>
-    <div class="user" id="userMenu"><i class="fa fa-user-circle"></i> Admin
-      <div class="profile-dropdown" id="profileMenu">
-        <a href="#"><i class="fa fa-cog"></i> Settings</a>
-        <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
-      </div>
-    </div>
-  </header>
 
   <!-- Overview Metrics -->
   <div class="dashboard-cards">
@@ -104,6 +94,7 @@ footer{margin-top:40px;text-align:center;font-size:14px;color:#6b7280;}
       </tbody>
     </table>
   </div>
+  
 
   <footer>© 2025 Nexbridge Logistics Admin Panel</footer>
 </div>

@@ -239,21 +239,19 @@
 
 <!-- Header -->
 <div class="top-header">
-  <div class="search-box">
-    <i class="fa fa-search"></i>
-    <input type="text" placeholder="Search...">
-  </div>
-  <div class="header-icons">
-    <i class="fa fa-bell"></i>
-    <i class="fa fa-envelope"></i>
-    <div class="profile-dropdown" id="profileDropdown">
-      <img src="https://i.pravatar.cc/38" alt="User Profile">
-      <div class="dropdown-menu" id="dropdownMenu">
-        <a href="#"><i class="fa fa-user-cog"></i> Settings</a>
+      <header>
+    <h1>Dashboard Overview</h1>
+    <div class="user" id="userMenu"><i class="fa fa-user-circle"></i> Admin
+      <div class="profile-dropdown" id="profileMenu">
+        <a href="#"><i class="fa fa-cog"></i> Settings</a>
         <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
+      <div class="search-box">
+    <i class="fa fa-search"></i>
+    <input type="text" placeholder="Search...">
   </div>
+  </header>
 </div>
 
 <!-- JavaScript -->
