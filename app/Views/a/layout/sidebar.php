@@ -271,7 +271,8 @@
   <a href="index.php?controller=customer&action=settings" class="<?php echo ($_GET['action'] ?? '') === 'settings' ? 'active' : ''; ?>">
     <i class="fa fa-cogs"></i> <span>Settings</span>
   </a>
-  <a href="index.php?controller=customer&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"><i class="fa fa-sign-out-alt"></i> Logout</a>
+<a href="index.php?controller=Auth&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"> <i class="fa fa-sign-out-alt"></i> Logout
+</a>
 
 </div>
 
@@ -293,7 +294,7 @@
       <div class="dropdown-menu" id="dropdownMenu">
         <a href="#"><i class="fa fa-user"></i> Profile</a>
         <a href="index.php?controller=customer&action=settings" class="<?php echo ($_GET['action'] ?? '') === 'settings' ? 'active' : ''; ?>"><i class="fa fa-cogs"></i> <span>Settings</span></a>
-        <a href="index.php?controller=customer&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        <a href="index.php?controller=Auth&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"><i class="fa fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
   </div>

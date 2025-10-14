@@ -1,73 +1,73 @@
 <?php
-session_start();
-require '../../conn.php';
-require '../../vendor/autoload.php';
+// session_start();
+// require '../../conn.php';
+// require '../../vendor/autoload.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
 
-// === CSRF Token Generation ===
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+// // === CSRF Token Generation ===
+// if (empty($_SESSION['csrf_token'])) {
+//     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// }
 
-// === CAPTCHA Generation (Only on GET Request) ===
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $a = rand(1, 10);
-    $b = rand(1, 10);
-    $_SESSION['captcha_question'] = "What is $a + $b?";
-    $_SESSION['captcha_answer'] = $a + $b;
-}
+// // === CAPTCHA Generation (Only on GET Request) ===
+// if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+//     $a = rand(1, 10);
+//     $b = rand(1, 10);
+//     $_SESSION['captcha_question'] = "What is $a + $b?";
+//     $_SESSION['captcha_answer'] = $a + $b;
+// }
 
-// === Login Attempt Tracker ===
-if (!isset($_SESSION['login_attempts'])) {
-    $_SESSION['login_attempts'] = 0;
-    $_SESSION['first_failed_time'] = time();
-}
+// // === Login Attempt Tracker ===
+// if (!isset($_SESSION['login_attempts'])) {
+//     $_SESSION['login_attempts'] = 0;
+//     $_SESSION['first_failed_time'] = time();
+// }
 
-$timeElapsed = time() - $_SESSION['first_failed_time'];
+// $timeElapsed = time() - $_SESSION['first_failed_time'];
 
-// === Lockout Handling ===
-if ($_SESSION['login_attempts'] >= 3) {
-    if ($timeElapsed >= 300) {
-        $_SESSION['login_attempts'] = 0;
-        $_SESSION['first_failed_time'] = time();
-        unset($_SESSION['unlock_email_sent'], $_SESSION['unlock_token']);
-    } else {
-        if (!isset($_SESSION['unlock_email_sent'])) {
-            $token = bin2hex(random_bytes(16));
-            $_SESSION['unlock_token'] = $token;
-            $link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/unlock.php?token=$token";
+// // === Lockout Handling ===
+// if ($_SESSION['login_attempts'] >= 3) {
+//     if ($timeElapsed >= 300) {
+//         $_SESSION['login_attempts'] = 0;
+//         $_SESSION['first_failed_time'] = time();
+//         unset($_SESSION['unlock_email_sent'], $_SESSION['unlock_token']);
+//     } else {
+//         if (!isset($_SESSION['unlock_email_sent'])) {
+//             $token = bin2hex(random_bytes(16));
+//             $_SESSION['unlock_token'] = $token;
+//             $link = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/unlock.php?token=$token";
 
-            $mail = new PHPMailer(true);
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'nexbridge001@gmail.com';
-                $mail->Password = 'ljxyijatkrivvwcy';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
+//             $mail = new PHPMailer(true);
+//             try {
+//                 $mail->isSMTP();
+//                 $mail->Host = 'smtp.gmail.com';
+//                 $mail->SMTPAuth = true;
+//                 $mail->Username = 'nexbridge001@gmail.com';
+//                 $mail->Password = 'ljxyijatkrivvwcy';
+//                 $mail->SMTPSecure = 'tls';
+//                 $mail->Port = 587;
 
-                $mail->setFrom('nexbridge001@gmail.com', 'ARSA Admin');
-                $mail->addAddress("sultanmaxwell2@gmail.com");
-                $mail->isHTML(true);
-                $mail->Subject = 'Unlock Admin Login';
-                $mail->Body = "Click <a href='$link'>here</a> to unlock your login.";
-                $mail->AltBody = "Visit this link: $link";
-                $mail->send();
+//                 $mail->setFrom('nexbridge001@gmail.com', 'ARSA Admin');
+//                 $mail->addAddress("sultanmaxwell2@gmail.com");
+//                 $mail->isHTML(true);
+//                 $mail->Subject = 'Unlock Admin Login';
+//                 $mail->Body = "Click <a href='$link'>here</a> to unlock your login.";
+//                 $mail->AltBody = "Visit this link: $link";
+//                 $mail->send();
 
-                $_SESSION['unlock_email_sent'] = true;
-                echo "<h3 style='color:green;text-align:center;'>Unlock link sent to admin email.</h3>";
-            } catch (Exception $e) {
-                echo "<h3 style='color:red;text-align:center;'>Mailer Error: {$mail->ErrorInfo}</h3>";
-            }
-        }
+//                 $_SESSION['unlock_email_sent'] = true;
+//                 echo "<h3 style='color:green;text-align:center;'>Unlock link sent to admin email.</h3>";
+//             } catch (Exception $e) {
+//                 echo "<h3 style='color:red;text-align:center;'>Mailer Error: {$mail->ErrorInfo}</h3>";
+//             }
+//         }
 
-        $remaining = ceil((300 - $timeElapsed) / 60);
-        die("<h2 style='color:red;text-align:center;'>Too many failed attempts. Try again in $remaining minute(s).</h2>");
-    }
-}
+//         $remaining = ceil((300 - $timeElapsed) / 60);
+//         die("<h2 style='color:red;text-align:center;'>Too many failed attempts. Try again in $remaining minute(s).</h2>");
+//     }
+// }
 
 // === Handle Login ===
 $error = '';
