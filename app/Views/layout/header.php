@@ -2,7 +2,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TS Freighters</title>
-<!-- ✅ Favicon -->
+<!--  Favicon -->
 <link rel="icon" type="image/png" href="/tsfreighters/public/assets/images/favicon3.png">
 <link rel="shortcut icon" href="/tsfreighters/public/assets/images/favicon3.png">
 <link rel="apple-touch-icon" href="/tsfreighters/public/assets/images/favicon3.png">
@@ -15,7 +15,7 @@
 
   <!-- Your custom CSS -->
   <link href="/tsfreighters/assets/css/main.css" rel="stylesheet">
-</head>
+</head>github
 
 <body>
   <!-- Navbar -->

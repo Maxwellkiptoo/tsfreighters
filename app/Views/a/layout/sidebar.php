@@ -253,7 +253,7 @@
     <i class="fa fa-home"></i> <span>Dashboard</span>
   </a>
 
-  <a href="index.php?controller=shipment&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'shipment' ? 'active' : ''; ?>">
+  <a href="index.php?controller=customer&action=shipment" class="<?php echo ($_GET['controller'] ?? '') === 'shipment' ? 'active' : ''; ?>">
     <i class="fa fa-truck"></i> <span>Shipments</span>
   </a>
 
@@ -261,7 +261,7 @@
     <i class="fa fa-users"></i> <span>Clients</span>
   </a>
 
-  <a href="index.php?controller=report&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'report' ? 'active' : ''; ?>">
+  <a href="index.php?controller=customer&action=reports" class="<?php echo ($_GET['controller'] ?? '') === 'reports' ? 'active' : ''; ?>">
     <i class="fa fa-chart-line"></i> <span>Reports</span>
   </a>
 

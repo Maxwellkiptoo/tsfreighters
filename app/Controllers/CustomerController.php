@@ -142,13 +142,29 @@ class CustomerController
     {
         require_once __DIR__ . '/../Views/auth/login.php';
     }
-public function clients()
-{
+    public function clients()
+    {
     require_once __DIR__ . '/../Views/a/client.php';
-}
+    }
     public function dash()
     {
         require_once __DIR__ . '/../Views/a/dash.php';
+    }
+    public function shipment()
+    {
+        require_once __DIR__ . '/../views/a/shipments.php';
+    }
+
+    public function reports()
+    {
+    require_once __DIR__ . '/../Views/a/reports.php';
+    }
+    
+    public function logout()
+    {
+        Auth::logout();
+        header('Location: index.php?controller=customer&action=login');
+        exit;
     }
 
 }
