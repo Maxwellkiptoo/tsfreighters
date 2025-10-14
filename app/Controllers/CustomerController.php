@@ -159,7 +159,12 @@ class CustomerController
     {
     require_once __DIR__ . '/../Views/a/reports.php';
     }
-    
+
+    public function invoices() {
+    require_once __DIR__ . '/../Views/a/invoices.php';
+     }
+
+
     public function logout()
     {
         Auth::logout();

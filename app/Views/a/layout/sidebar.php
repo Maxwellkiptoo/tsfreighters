@@ -265,6 +265,12 @@
     <i class="fa fa-chart-line"></i> <span>Reports</span>
   </a>
 
+  <a href="index.php?controller=customer&action=invoices" 
+   class="<?php echo ($_GET['action'] ?? '') === 'invoices' ? 'active' : ''; ?>">
+  <i class="fa fa-file-invoice"></i> <span>Invoices</span>
+</a>
+
+
   <a href="index.php?controller=settings&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'settings' ? 'active' : ''; ?>">
     <i class="fa fa-cogs"></i> <span>Settings</span>
   </a>
