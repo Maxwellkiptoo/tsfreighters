@@ -15,6 +15,7 @@ body {
 }
 .main-content { margin-left: 250px; padding: 30px; }
 @media(max-width:768px){ .main-content{margin-left:0;} .sidebar{display:none;} }
+
 header {
   background: #fff;
   padding: 15px 25px;
@@ -104,6 +105,7 @@ header h1 {
 .btn-print { background: #2563eb; }
 .btn-csv { background: #10b981; }
 .btn-pdf { background: #f59e0b; }
+.btn-client { background: #9333ea; }
 
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 table th, table td { text-align: left; padding: 10px 15px; }
@@ -180,11 +182,11 @@ $filterLabel = ($month && $year) ? "$month $year" : "All Time";
       </div>
     </h2>
     <table>
-      <thead><tr><th>Client</th><th>Shipments</th><th>Revenue (Ksh)</th></tr></thead>
+      <thead><tr><th>Client</th><th>Shipments</th><th>Revenue (Ksh)</th><th>Actions</th></tr></thead>
       <tbody>
-        <tr><td>John Doe Ltd</td><td>45</td><td>75,000</td></tr>
-        <tr><td>Global Freight Co.</td><td>38</td><td>60,000</td></tr>
-        <tr><td>FastTrack Ltd</td><td>32</td><td>55,500</td></tr>
+        <tr><td>John Doe Ltd</td><td>45</td><td>75,000</td><td><button class="btn-client" onclick="printClientReport('John Doe Ltd',45,75000)">Print</button></td></tr>
+        <tr><td>Global Freight Co.</td><td>38</td><td>60,000</td><td><button class="btn-client" onclick="printClientReport('Global Freight Co.',38,60000)">Print</button></td></tr>
+        <tr><td>FastTrack Ltd</td><td>32</td><td>55,500</td><td><button class="btn-client" onclick="printClientReport('FastTrack Ltd',32,55500)">Print</button></td></tr>
       </tbody>
     </table>
   </div>
@@ -211,19 +213,18 @@ new Chart(ctx, {
   options: { responsive: true, plugins: { legend: { display: false } } }
 });
 
-// ✅ Print only section
+// ✅ Print a section
 function printSection(sectionId) {
   const content = document.getElementById(sectionId).innerHTML;
   const printWindow = window.open('', '', 'width=900,height=600');
-  printWindow.document.write('<html><head><title>Print Report</title>');
-  printWindow.document.write('</head><body>');
+  printWindow.document.write('<html><head><title>Print Report</title></head><body>');
   printWindow.document.write(content);
   printWindow.document.write('</body></html>');
   printWindow.document.close();
   printWindow.print();
 }
 
-// ✅ Export section as CSV
+// ✅ Export section to CSV
 function exportSectionCSV(sectionId) {
   const rows = document.querySelectorAll(`#${sectionId} table tr`);
   if (rows.length === 0) return alert("No table found to export!");
@@ -240,13 +241,27 @@ function exportSectionCSV(sectionId) {
   link.click();
 }
 
-// ✅ Export section as PDF
+// ✅ Export to PDF
 async function exportSectionPDF(sectionId) {
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF('p', 'pt', 'a4');
   const section = document.getElementById(sectionId);
   pdf.text("Report Section: " + sectionId, 40, 40);
   pdf.html(section, { x: 30, y: 60, callback: () => pdf.save(`${sectionId}.pdf`) });
+}
+
+// ✅ Print individual client
+function printClientReport(name, shipments, revenue) {
+  const content = `
+    <h2>${name} - Monthly Report</h2>
+    <p><strong>Shipments:</strong> ${shipments}</p>
+    <p><strong>Total Revenue:</strong> Ksh ${revenue.toLocaleString()}</p>
+    <hr><p>Generated on ${new Date().toLocaleDateString()}</p>
+  `;
+  const printWindow = window.open('', '', 'width=600,height=400');
+  printWindow.document.write(`<html><head><title>${name} Report</title></head><body>${content}</body></html>`);
+  printWindow.document.close();
+  printWindow.print();
 }
 </script>
 </body>
