@@ -265,19 +265,14 @@
     <i class="fa fa-chart-line"></i> <span>Reports</span>
   </a>
 
-  <a href="index.php?controller=customer&action=invoices" 
-   class="<?php echo ($_GET['action'] ?? '') === 'invoices' ? 'active' : ''; ?>">
+  <a href="index.php?controller=customer&action=invoices" class="<?php echo ($_GET['action'] ?? '') === 'invoices' ? 'active' : ''; ?>">
   <i class="fa fa-file-invoice"></i> <span>Invoices</span>
 </a>
-
-
-  <a href="index.php?controller=settings&action=index" class="<?php echo ($_GET['controller'] ?? '') === 'settings' ? 'active' : ''; ?>">
+  <a href="index.php?controller=customer&action=settings" class="<?php echo ($_GET['action'] ?? '') === 'settings' ? 'active' : ''; ?>">
     <i class="fa fa-cogs"></i> <span>Settings</span>
   </a>
+  <a href="index.php?controller=customer&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"><i class="fa fa-sign-out-alt"></i> Logout</a>
 
-  <a href="index.php?controller=customer&action=logout">
-    <i class="fa fa-sign-out-alt"></i> <span>Logout</span>
-  </a>
 </div>
 
 <!-- Header -->
@@ -297,8 +292,8 @@
       <img src="https://i.pravatar.cc/38" alt="Admin">
       <div class="dropdown-menu" id="dropdownMenu">
         <a href="#"><i class="fa fa-user"></i> Profile</a>
-        <a href="#"><i class="fa fa-cog"></i> Settings</a>
-        <a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        <a href="index.php?controller=customer&action=settings" class="<?php echo ($_GET['action'] ?? '') === 'settings' ? 'active' : ''; ?>"><i class="fa fa-cogs"></i> <span>Settings</span></a>
+        <a href="index.php?controller=customer&action=logout" class="<?php echo ($_GET['action'] ?? '') === 'logout' ? 'active' : ''; ?>"><i class="fa fa-sign-out-alt"></i> Logout</a>
       </div>
     </div>
   </div>

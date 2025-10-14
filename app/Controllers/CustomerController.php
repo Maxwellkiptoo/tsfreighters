@@ -164,7 +164,10 @@ class CustomerController
     require_once __DIR__ . '/../Views/a/invoices.php';
      }
 
-
+    public function settings() 
+    {
+    require_once __DIR__ . '/../Views/a/settings.php';
+    }
     public function logout()
     {
         Auth::logout();
