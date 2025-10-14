@@ -6,54 +6,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Monthly Reports | Logistics Admin</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #f5f6fa;
+  background-color: #f4f5f7;
   color: #333;
   overflow-x: hidden;
 }
-
-.sidebar {
-  width: 250px;
-  background: #111827;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  color: white;
-  padding: 20px 0;
-}
-
-.sidebar h2 {
-  text-align: center;
-  color: #10b981;
-  margin-bottom: 40px;
-}
-
-.sidebar a {
-  display: block;
-  color: #d1d5db;
-  text-decoration: none;
-  padding: 12px 25px;
-  margin: 5px 0;
-  border-left: 4px solid transparent;
-  transition: 0.3s;
-}
-
-.sidebar a:hover, .sidebar a.active {
-  background: #1f2937;
-  border-left: 4px solid #10b981;
-  color: #fff;
-}
-
 .main-content {
   margin-left: 250px;
   padding: 30px;
 }
+@media(max-width:768px){
+  .main-content{margin-left:0;}
+  .sidebar{display:none;}
+}
 
+/* Header */
 header {
   background: white;
   padding: 15px 25px;
@@ -63,20 +33,22 @@ header {
   align-items: center;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
-
 header h1 {
-  margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   color: #111827;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-
 header .user {
   display: flex;
   align-items: center;
+  font-weight: 500;
+  color: #374151;
 }
-
 header .user i {
-  margin-right: 10px;
+  margin-right: 8px;
   color: #10b981;
 }
 
@@ -90,23 +62,21 @@ header .user i {
   display: flex;
   gap: 20px;
   align-items: center;
+  flex-wrap: wrap;
 }
-
 .filter-form select, .filter-form button {
-  padding: 10px;
+  padding: 10px 14px;
   font-size: 15px;
-  border: 1px solid #ddd;
+  border: 1px solid #d1d5db;
   border-radius: 6px;
 }
-
 .filter-form button {
   background: #10b981;
   color: white;
   cursor: pointer;
   border: none;
-  transition: 0.3s;
+  transition: background 0.3s;
 }
-
 .filter-form button:hover {
   background: #0d946c;
 }
@@ -118,26 +88,28 @@ header .user i {
   gap: 20px;
   margin-top: 30px;
 }
-
 .card {
   background: white;
-  padding: 20px;
+  padding: 25px 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 14px rgba(0,0,0,0.1);
+}
 .card i {
-  font-size: 25px;
+  font-size: 28px;
   color: #10b981;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
-
 .card h3 {
+  font-size: 24px;
   margin: 5px 0;
-  font-size: 22px;
+  color: #111827;
 }
-
 .card p {
   font-size: 14px;
   color: #6b7280;
@@ -151,37 +123,35 @@ header .user i {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   padding: 20px;
 }
-
 .table-section h2 {
   margin-bottom: 15px;
+  color: #111827;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
 }
-
 table th, table td {
   text-align: left;
-  padding: 12px;
+  padding: 12px 15px;
 }
-
 table th {
   background: #10b981;
   color: white;
+  font-weight: 600;
 }
-
 table tr:nth-child(even) {
   background: #f9fafb;
 }
-
+table td {
+  color: #374151;
+}
 footer {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
   font-size: 14px;
   color: #6b7280;
 }
-
 canvas {
   width: 100%;
   height: 320px;
@@ -191,27 +161,39 @@ canvas {
 </head>
 <body>
 
+<?php
+// === Sample Filter Logic ===
+// (Replace with real DB query later)
+$month = $_GET['month'] ?? '';
+$year = $_GET['year'] ?? '';
+$filterLabel = ($month && $year) ? "$month $year" : "All Time";
+?>
+
 <div class="main-content">
   <header>
-    <h1>Monthly Reports</h1>
+    <h1><i class="fa fa-chart-line"></i> Reports - <?= htmlspecialchars($filterLabel) ?></h1>
     <div class="user"><i class="fa fa-user-circle"></i> Admin</div>
   </header>
 
   <!-- Filter Form -->
-  <form class="filter-form">
-    <select name="month">
+  <form class="filter-form" method="GET" id="reportFilter">
+    <select name="month" id="month">
       <option value="">Select Month</option>
-      <option>January</option><option>February</option><option>March</option>
-      <option>April</option><option>May</option><option>June</option>
-      <option>July</option><option>August</option><option>September</option>
-      <option>October</option><option>November</option><option>December</option>
+      <?php
+        $months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        foreach($months as $m){
+          $selected = ($m == $month) ? 'selected' : '';
+          echo "<option $selected>$m</option>";
+        }
+      ?>
     </select>
 
-    <select name="year">
+    <select name="year" id="year">
       <option value="">Select Year</option>
-      <option>2023</option>
-      <option>2024</option>
-      <option selected>2025</option>
+      <?php for($y=date('Y');$y>=2020;$y--){ 
+        $selected = ($y == $year) ? 'selected' : '';
+        echo "<option $selected>$y</option>"; 
+      } ?>
     </select>
 
     <button type="submit"><i class="fa fa-filter"></i> Filter</button>
@@ -219,26 +201,10 @@ canvas {
 
   <!-- Cards -->
   <div class="report-cards">
-    <div class="card">
-      <i class="fa fa-truck"></i>
-      <h3>1,245</h3>
-      <p>Total Shipments</p>
-    </div>
-    <div class="card">
-      <i class="fa fa-box"></i>
-      <h3>980</h3>
-      <p>Delivered</p>
-    </div>
-    <div class="card">
-      <i class="fa fa-exclamation-triangle"></i>
-      <h3>45</h3>
-      <p>Delayed</p>
-    </div>
-    <div class="card">
-      <i class="fa fa-dollar-sign"></i>
-      <h3>Ksh 320,000</h3>
-      <p>Total Revenue</p>
-    </div>
+    <div class="card"><i class="fa fa-truck"></i><h3>1,245</h3><p>Total Shipments</p></div>
+    <div class="card"><i class="fa fa-box"></i><h3>980</h3><p>Delivered</p></div>
+    <div class="card"><i class="fa fa-exclamation-triangle" style="color:#f59e0b;"></i><h3>45</h3><p>Delayed</p></div>
+    <div class="card"><i class="fa fa-sack-dollar" style="color:#2563eb;"></i><h3>Ksh 320,000</h3><p>Total Revenue</p></div>
   </div>
 
   <!-- Chart -->
@@ -246,18 +212,14 @@ canvas {
 
   <!-- Table -->
   <div class="table-section">
-    <h2>Detailed Monthly Shipments</h2>
+    <h2><?= htmlspecialchars($filterLabel) ?> Shipments</h2>
     <table>
       <thead>
         <tr>
-          <th>Date</th>
-          <th>Tracking ID</th>
-          <th>Client</th>
-          <th>Status</th>
-          <th>Revenue (Ksh)</th>
+          <th>Date</th><th>Tracking ID</th><th>Client</th><th>Status</th><th>Revenue (Ksh)</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="reportTable">
         <tr><td>02 Oct 2025</td><td>#TRK001</td><td>John Doe</td><td style="color:green;">Delivered</td><td>12,000</td></tr>
         <tr><td>05 Oct 2025</td><td>#TRK002</td><td>Mary Atieno</td><td style="color:orange;">In Transit</td><td>8,000</td></tr>
         <tr><td>07 Oct 2025</td><td>#TRK003</td><td>Peter Kariuki</td><td style="color:red;">Delayed</td><td>5,500</td></tr>
@@ -266,37 +228,42 @@ canvas {
     </table>
   </div>
 
-  <footer>© 2025 Nexbridge Logistics Reports Dashboard</footer>
+  <footer>© 2025 Nexbridge Logistics | Reports Dashboard</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-// Line Chart
-const ctx = document.getElementById('reportChart');
+// === Chart Setup ===
+const ctx = document.getElementById('reportChart').getContext('2d');
+const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+gradient.addColorStop(0, 'rgba(16,185,129,0.8)');
+gradient.addColorStop(1, 'rgba(16,185,129,0.2)');
+
 new Chart(ctx, {
   type: 'bar',
   data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-    datasets: [
-      {
-        label: 'Total Shipments',
-        data: [800, 950, 1020, 1100, 1250, 1400, 1550, 1600, 1450, 1300],
-        backgroundColor: 'rgba(16,185,129,0.7)',
-      },
-      {
-        label: 'Delivered',
-        data: [700, 850, 950, 1000, 1150, 1300, 1450, 1500, 1380, 1200],
-        backgroundColor: 'rgba(37,99,235,0.6)',
-      }
-    ]
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'],
+    datasets: [{
+      label: 'Total Shipments',
+      data: [820, 950, 1100, 1175, 1280, 1410, 1550, 1620, 1500, 1325],
+      backgroundColor: gradient,
+      borderRadius: 6,
+    },{
+      label: 'Delivered',
+      data: [720, 880, 1020, 1100, 1200, 1350, 1475, 1550, 1420, 1260],
+      backgroundColor: 'rgba(37,99,235,0.6)',
+      borderRadius: 6,
+    }]
   },
   options: {
     responsive: true,
-    plugins: { legend: { position: 'bottom' } },
-    scales: { y: { beginAtZero: true } }
+    plugins: {
+      legend: { position: 'bottom', labels: { usePointStyle: true } },
+      tooltip: { backgroundColor: '#111827', titleColor: '#fff', bodyColor: '#d1d5db' }
+    },
+    scales: { y: { beginAtZero: true, grid: { color:'#e5e7eb' } } }
   }
 });
 </script>
-
 </body>
 </html>
