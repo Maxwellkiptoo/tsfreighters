@@ -1,6 +1,5 @@
 <?php
 // Log the 404 error
-include 'navbar/user_header.php';
 $requested_url = $_SERVER['REQUEST_URI'];
 $error_message = "404 Error: Page not found. Requested URL: " . $requested_url . "\n";
 error_log($error_message, 3, 'error_log.txt');
@@ -15,7 +14,7 @@ echo <<<HTML
 <head>
     <meta charset="UTF-8">
     <title>404 - Page Not Found</title>
-    <meta http-equiv="refresh" content="5; url=/arsa-estate/client/index.php">
+    <meta http-equiv="refresh" content="5; url=/tsfreighters/public/index.php">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -90,12 +89,11 @@ echo <<<HTML
     </style>
     <script>
         setTimeout(function () {
-            window.location.replace('/arsa-estate/client/index.php');
+            window.location.replace('/tsfreighters/public/index.php');
         }, 5000);
     </script>
 </head>
 <body>
-
     <div class="container">
         <h1>404 - Page Not Found</h1>
         <p>Oops! This page took off running and got lost...</p>
@@ -104,7 +102,7 @@ echo <<<HTML
 
         </div>
         <p>Redirecting to homepage shortly.</p>
-        <a href="/arsa-estate/client/index.php" class="button">Go to Homepage</a>
+        <a href="/tsfreighters/public/index.php" class="button">Go to Homepage</a>
     </div>
 
 </body>
