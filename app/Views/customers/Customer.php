@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Client Dashboard </title>
+<title>Customer Dashboard | LogiTrack</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,7 +17,7 @@ body {
   overflow-x: hidden;
 }
 .main-content {
-  margin-left: 250px;
+  margin-left: 260px;
   padding: 30px;
 }
 
@@ -71,7 +71,7 @@ body {
   box-shadow: 0 8px 18px rgba(0,0,0,0.12);
 }
 .card i {
-  font-size: 26px;
+  font-size: 28px;
   color: #10b981;
   margin-bottom: 10px;
 }
@@ -83,6 +83,25 @@ body {
 .card p {
   font-size: 14px;
   color: #6b7280;
+}
+
+/* Charts Section */
+.charts-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+.chart-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 20px;
+}
+.chart-card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #111827;
 }
 
 /* Shipment Table */
@@ -123,37 +142,7 @@ table tr:nth-child(even){background:#f9fafb;}
 .status.transit{background:#fef3c7;color:#b45309;}
 .status.pending{background:#e0f2fe;color:#0369a1;}
 
-/* Order Form */
-.order-form {
-  background: white;
-  border-radius: 16px;
-  padding: 25px;
-  margin-top: 40px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-.order-form h2 { margin-bottom: 15px; }
-.order-form form {
-  display: grid;
-  gap: 15px;
-}
-.order-form input, .order-form select {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 14px;
-  width: 100%;
-}
-.order-form button {
-  background: #10b981;
-  border: none;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.order-form button:hover { background: #059669; }
-
+/* Footer */
 footer {
   margin-top: 40px;
   text-align: center;
@@ -166,17 +155,39 @@ footer {
 
 <div class="main-content">
 
- <!-- Overview Cards -->
-  <div class="dashboard-cards">
-    <div class="card"><i class="fa fa-truck"></i><h3>5</h3><p>Active Shipments</p></div>
-    <div class="card"><i class="fa fa-check-circle"></i><h3>12</h3><p>Delivered</p></div>
-    <div class="card"><i class="fa fa-hourglass-half"></i><h3>2</h3><p>Pending</p></div>
-    <div class="card"><i class="fa fa-wallet"></i><h3>Ksh 124,000</h3><p>Total Spent</p></div>
+  <div class="dashboard-header">
+    <h1>Customer Dashboard Overview</h1>
+    <div class="notifications">
+      <i class="fa fa-bell"></i>
+      <span class="badge">3</span>
+    </div>
   </div>
 
-  <!-- Shipment History Table -->
+  <!-- Overview Cards -->
+  <div class="dashboard-cards">
+    <div class="card"><i class="fa fa-truck"></i><h3>5</h3><p>Active Shipments</p></div>
+    <div class="card"><i class="fa fa-check-circle"></i><h3>12</h3><p>Delivered Packages</p></div>
+    <div class="card"><i class="fa fa-hourglass-half"></i><h3>2</h3><p>Pending Deliveries</p></div>
+    <div class="card"><i class="fa fa-wallet"></i><h3>Ksh 124,000</h3><p>Total Payments</p></div>
+    <div class="card"><i class="fa fa-map-marker-alt"></i><h3>14</h3><p>Total Destinations Covered</p></div>
+  </div>
+
+  <!-- Charts Section -->
+  <div class="charts-section">
+    <div class="chart-card">
+      <h2>Shipment Status Overview</h2>
+      <canvas id="shipmentChart"></canvas>
+    </div>
+
+    <div class="chart-card">
+      <h2>Monthly Spending</h2>
+      <canvas id="spendingChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Shipment History -->
   <div class="table-section">
-    <h2>My Shipments</h2>
+    <h2>Recent Shipments</h2>
     <table>
       <thead>
         <tr><th>Tracking ID</th><th>Origin</th><th>Destination</th><th>Status</th><th>Expected Delivery</th></tr>
@@ -189,24 +200,47 @@ footer {
     </table>
   </div>
 
-  <!-- Place Order -->
-  <div class="order-form">
-    <h2>Place a New Shipment Order</h2>
-    <form action="place_order.php" method="POST">
-      <input type="text" name="origin" placeholder="Pickup Location" required>
-      <input type="text" name="destination" placeholder="Destination" required>
-      <input type="text" name="package_details" placeholder="Package Details" required>
-      <select name="delivery_type" required>
-        <option value="">Select Delivery Type</option>
-        <option value="standard">Standard Delivery</option>
-        <option value="express">Express Delivery</option>
-      </select>
-      <button type="submit"><i class="fa fa-paper-plane"></i> Submit Order</button>
-    </form>
-  </div>
-
-  <footer>© 2025 Nexbridge Logistics Client Dashboard</footer>
+  <footer>© 2025 Nexbridge Logistics | Customer Dashboard</footer>
 </div>
+
+<!-- Chart.js Configuration -->
+<script>
+const shipmentCtx = document.getElementById('shipmentChart').getContext('2d');
+new Chart(shipmentCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Delivered', 'In Transit', 'Pending'],
+    datasets: [{
+      data: [12, 5, 2],
+      backgroundColor: ['#10b981', '#f59e0b', '#3b82f6'],
+      borderWidth: 0
+    }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+
+const spendingCtx = document.getElementById('spendingChart').getContext('2d');
+new Chart(spendingCtx, {
+  type: 'line',
+  data: {
+    labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+    datasets: [{
+      label: 'Ksh Spent',
+      data: [18000, 22000, 19500, 25000, 27000, 32000],
+      borderColor: '#10b981',
+      backgroundColor: 'rgba(16,185,129,0.1)',
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } },
+    scales: {
+      y: { beginAtZero: true, ticks: { stepSize: 5000 } }
+    }
+  }
+});
+</script>
 
 </body>
 </html>

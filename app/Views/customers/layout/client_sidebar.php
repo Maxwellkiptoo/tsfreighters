@@ -249,7 +249,7 @@
   </div>
 
   <!-- ✅ Customer Sidebar Links -->
-  <a href="customer_dashboard.php" class="<?php echo ($_GET['page'] ?? '') === 'dashboard' ? 'active' : ''; ?>">
+  <a href="customer.php" class="<?php echo ($_GET['page'] ?? '') === 'dashboard' ? 'active' : ''; ?>">
     <i class="fa fa-home"></i> <span>Dashboard</span>
   </a>
 
