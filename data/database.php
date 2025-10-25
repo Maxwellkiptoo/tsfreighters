@@ -33,3 +33,15 @@ CREATE TABLE invoices (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (shipment_id) REFERENCES shipments(id)
 );
+
+CREATE TABLE support_tickets (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  subject VARCHAR(255),
+  message TEXT,
+  attachment VARCHAR(255),
+  status ENUM('Open','Closed') DEFAULT 'Open',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
