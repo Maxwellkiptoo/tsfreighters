@@ -166,16 +166,7 @@ footer {
 
 <div class="main-content">
 
-  <!-- Header -->
-  <div class="dashboard-header">
-    <h1>Welcome, Client</h1>
-    <div class="notifications">
-      <i class="fa fa-bell"></i>
-      <span class="badge">3</span>
-    </div>
-  </div>
-
-  <!-- Overview Cards -->
+ <!-- Overview Cards -->
   <div class="dashboard-cards">
     <div class="card"><i class="fa fa-truck"></i><h3>5</h3><p>Active Shipments</p></div>
     <div class="card"><i class="fa fa-check-circle"></i><h3>12</h3><p>Delivered</p></div>
