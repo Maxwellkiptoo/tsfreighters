@@ -17,3 +17,9 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+)$ public/index.php?route=$1 [QSA,L]
 
 
+# Disable directory listing everywhere
+Options -Indexes
+
+# Default page for any folder
+DirectoryIndex index.php
+
