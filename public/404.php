@@ -1,41 +1,13 @@
 <?php
-// Log file path
-$log_file = __DIR__ . '/error_log.txt';
-
-// Handle "Clear Log" request if confirmed
-if (isset($_GET['clear_log'])) {
-    if ($_GET['clear_log'] === 'confirm') {
-        file_put_contents($log_file, ""); // Clear log
-        $cleared = true;
-    }
-}
-
-// Ensure the file exists
-if (!file_exists($log_file)) {
-    file_put_contents($log_file, "=== Error Log Initialized ===\n");
-}
-
 // Log the 404 error
 $requested_url = $_SERVER['REQUEST_URI'];
-$timestamp = date("Y-m-d H:i:s");
-$error_message = "[$timestamp] 404 Error: Page not found. Requested URL: $requested_url\n";
-
-// Read existing log
-$existing_logs = file($log_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-// Keep only the last 4 (so after adding new one it becomes 5)
-if (count($existing_logs) >= 5) {
-    $existing_logs = array_slice($existing_logs, -4);
-}
-
-// Add the new entry
-$existing_logs[] = trim($error_message);
-file_put_contents($log_file, implode("\n", $existing_logs) . "\n");
+$error_message = "404 Error: Page not found. Requested URL: " . $requested_url . "\n";
+error_log($error_message, 3, 'error_log.txt');
 
 // Send 404 header
 http_response_code(404);
 
-// HTML Output
+// Output the animated 404 page
 echo <<<HTML
 <!DOCTYPE html>
 <html lang="en">
@@ -114,23 +86,11 @@ echo <<<HTML
         .button:hover {
             background-color: #16a085;
         }
-
-        .small {
-            font-size: 14px;
-            color: #888;
-            margin-top: 20px;
-        }
     </style>
     <script>
         setTimeout(function () {
             window.location.replace('/tsfreighters/public/index.php');
         }, 5000);
-
-        function confirmClear() {
-            if (confirm("Are you sure you want to clear the error log?")) {
-                window.location.href = "?clear_log=confirm";
-            }
-        }
     </script>
 </head>
 <body>
@@ -139,20 +99,12 @@ echo <<<HTML
         <p>Oops! This page took off running and got lost...</p>
         <div class="runner">
            <img src="https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif" alt="Running GIF">
+
         </div>
         <p>Redirecting to homepage shortly.</p>
         <a href="/tsfreighters/public/index.php" class="button">Go to Homepage</a>
-        <br>
-        <button class="button" style="background-color:#e74c3c;" onclick="confirmClear()">Clear Error Log</button>
-        <p class="small">You’ll be redirected automatically in 5 seconds.</p>
-HTML;
-
-if (isset($cleared)) {
-    echo "<p style='color:green;'>✅ Error log cleared successfully!</p>";
-}
-
-echo <<<HTML
     </div>
+
 </body>
 </html>
 HTML;
