@@ -22,7 +22,7 @@ $response = file_get_contents($apiUrl);
 $data = json_decode($response, true);
 $shipment = $data['shipment'] ?? null;
 
-      $shipment = $mockData;
+      $shipment = $mockData;u
       $fromKRA = true;
   } else {
       echo "<div class='error'>No shipment found for tracking number: <b>$tracking_number</b></div>";
