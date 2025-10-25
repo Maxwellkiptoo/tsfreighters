@@ -14,3 +14,13 @@ CREATE TABLE shipments (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE invoices (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id INT NOT NULL,
+  tracking_number VARCHAR(50),
+  invoice_number VARCHAR(50),
+  amount DECIMAL(10,2),
+  status VARCHAR(20) DEFAULT 'Unpaid',
+  invoice_file VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
