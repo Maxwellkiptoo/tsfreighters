@@ -2,10 +2,14 @@
 RewriteEngine On
 RewriteBase /tsfreighters/
 
-# If user visits /tsfreighters/, redirect to /public/
-DirectoryIndex public/index.php
+# Default page for any folder
+DirectoryIndex index.php
 
-# Hide the /public in URL
+# Redirect the main folder to the public directory
+RewriteCond %{REQUEST_URI} ^/tsfreighters/?$
+RewriteRule ^$ public/index.php [L]
+
+# Hide /public in URL
 RewriteCond %{REQUEST_URI} !^/tsfreighters/public
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -16,10 +20,30 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+)$ public/index.php?route=$1 [QSA,L]
 
-
 # Disable directory listing everywhere
 Options -Indexes
 
-# Default page for any folder
-DirectoryIndex index.php
-
+# Custom 404 Error Page
+ErrorDocument 404 /tsfreighters/public/404.php
+# Custom 500 Error Page
+ErrorDocument 500 /tsfreighters/public/404.php
+# Custom 403 Error Page
+ErrorDocument 403 /tsfreighters/public/404.php
+# Custom 401 Error Page
+ErrorDocument 401 /tsfreighters/public/404.php
+# Custom 400 Error Page
+ErrorDocument 400 /tsfreighters/public/404.php
+# Custom 503 Error Page
+ErrorDocument 503 /tsfreighters/public/404.php
+# Custom 504 Error Page
+ErrorDocument 504 /tsfreighters/public/404.php
+# Custom 502 Error Page
+ErrorDocument 502 /tsfreighters/public/404.php
+# Custom 501 Error Page 
+ErrorDocument 501 /tsfreighters/public/404.php
+# Custom 429 Error Page
+ErrorDocument 429 /tsfreighters/public/404.php
+# Custom 408 Error Page
+ErrorDocument 408 /tsfreighters/public/404.php
+# Custom 410 Error Page
+ErrorDocument 410 /tsfreighters/public/404.php
