@@ -24,3 +24,12 @@ CREATE TABLE invoices (
   invoice_file VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE invoices (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  invoice_number VARCHAR(50) UNIQUE,
+  shipment_id INT NOT NULL,
+  total_amount DECIMAL(10,2),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (shipment_id) REFERENCES shipments(id)
+);
