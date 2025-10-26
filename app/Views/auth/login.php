@@ -8,7 +8,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-// generate a simple math captcha (changes every time)
+// generate a simple math captcha
 $num1 = rand(1, 10);
 $num2 = rand(1, 10);
 $_SESSION['math_answer'] = $num1 + $num2;
@@ -71,6 +71,14 @@ $_SESSION['math_answer'] = $num1 + $num2;
 
             <div id="loginAlert" class="alert mt-4 d-none" role="alert"></div>
 
+            <!-- 🔹 NEW: Register Section -->
+            <div class="text-center mt-4">
+              <p class="small text-muted mb-2">Don’t have an account?</p>
+              <a href="/app/Views/auth/register.php" class="btn btn-outline-warning rounded-pill px-4 py-2">
+                <i class="fas fa-user-plus me-2"></i> Create Account
+              </a>
+            </div>
+
             <hr class="my-4">
 
             <div class="text-center small text-muted">
@@ -125,7 +133,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
   const fd = new FormData(form);
 
   try {
-    const res = await fetch('app/controllers/login_process.php', { method: 'POST', body: fd });
+    const res = await fetch('../../Controllers/login_process.php', { method: 'POST', body: fd });
     const json = await res.json();
 
     if (json.status === 'success') {

@@ -1,148 +1,150 @@
 <?php
-require_once(__DIR__ . '/../../Core/Database.php');
-session_start();
-
-$db = new Database();
-$conn = $db->getConnection();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Generate CSRF token
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-$success = '';
-$error = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // CSRF protection
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        $error = "Invalid request. Please refresh and try again.";
-    } else {
-        $full_name = trim($_POST['full_name']);
-        $email     = trim($_POST['email']);
-        $phone     = trim($_POST['phone']);
-        $password  = trim($_POST['password']);
-        $confirm   = trim($_POST['confirm']);
-
-        // Server-side validation
-        if (empty($full_name) || empty($email) || empty($password) || empty($confirm)) {
-            $error = "All required fields must be filled.";
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error = "Invalid email format.";
-        } elseif ($password !== $confirm) {
-            $error = "Passwords do not match.";
-        } elseif (strlen($password) < 8) {
-            $error = "Password must be at least 8 characters long.";
-        } else {
-            try {
-                // Check if email exists
-                $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
-                $stmt->execute([$email]);
-                if ($stmt->rowCount() > 0) {
-                    $error = "This email is already registered.";
-                } else {
-                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-                    $insert = $conn->prepare("
-                        INSERT INTO users (full_name, email, phone, password, role, is_active, created_at)
-                        VALUES (?, ?, ?, ?, 'customer', 1, NOW())
-                    ");
-                    $insert->execute([$full_name, $email, $phone, $hashedPassword]);
-
-                    if ($insert->rowCount() > 0) {
-                        $success = "Account created successfully! You can now log in.";
-                        // Optionally: redirect after a delay
-                        header("refresh:3;url=login.php");
-                    } else {
-                        $error = "Registration failed. Please try again later.";
-                    }
-                }
-            } catch (PDOException $e) {
-                $error = "Database error: " . htmlspecialchars($e->getMessage());
-            }
-        }
-    }
-}
+// Simple math captcha
+$num1 = rand(1, 9);
+$num2 = rand(1, 9);
+$_SESSION['math_answer'] = $num1 + $num2;
 ?>
+<?php include __DIR__ . '/../layout/header.php'; ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register | TSFreighters</title>
-    <link rel="stylesheet" href="/tsfreighters/public/css/style.css">
-    <style>
-        body {
-            font-family: "Segoe UI", sans-serif;
-            background: #f7f8fa;
-        }
-        .register-box {
-            width: 420px;
-            margin: 60px auto;
-            background: #fff;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h2 { text-align: center; color: #333; margin-bottom: 20px; }
-        label { font-weight: 600; display: block; margin-top: 10px; }
-        input {
-            width: 100%; padding: 10px;
-            border: 1px solid #ccc; border-radius: 5px;
-            margin-top: 5px;
-        }
-        button {
-            width: 100%; padding: 12px;
-            margin-top: 15px;
-            background: #007bff; color: #fff;
-            border: none; border-radius: 5px;
-            cursor: pointer; font-size: 16px;
-        }
-        button:hover { background: #0056b3; }
-        .msg {
-            padding: 10px; border-radius: 5px; text-align: center;
-            margin-bottom: 15px; font-weight: bold;
-        }
-        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    </style>
-</head>
-<body>
+<section class="py-5 bg-light min-vh-100 d-flex align-items-center">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8" data-aos="fade-up">
+        <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+          <div class="card-body p-4 p-md-5 bg-white">
+            <div class="text-center mb-4">
+              <i class="fas fa-user-plus fa-3x text-warning mb-2"></i>
+              <h3 class="fw-bold">Create Your Account</h3>
+              <p class="text-muted small">Sign up to access your shipments and support.</p>
+            </div>
 
-<div class="register-box">
-    <h2>Create Your Account</h2>
+            <form id="registerForm" novalidate>
+              <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
-    <?php if ($success): ?>
-        <div class="msg success"><?= htmlspecialchars($success) ?></div>
-    <?php elseif ($error): ?>
-        <div class="msg error"><?= htmlspecialchars($error) ?></div>
-    <?php endif; ?>
+              <div class="mb-3">
+                <label for="full_name" class="form-label fw-semibold">Full Name</label>
+                <input type="text" id="full_name" name="full_name" class="form-control form-control-lg rounded-pill px-4" placeholder="John Doe" required>
+              </div>
 
-    <form method="POST">
-        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']); ?>">
+              <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email Address</label>
+                <input type="email" id="email" name="email" class="form-control form-control-lg rounded-pill px-4" placeholder="you@example.com" required>
+              </div>
 
-        <label>Full Name *</label>
-        <input type="text" name="full_name" placeholder="John Doe" required>
+              <div class="mb-3">
+                <label for="phone" class="form-label fw-semibold">Phone Number</label>
+                <input type="text" id="phone" name="phone" class="form-control form-control-lg rounded-pill px-4" placeholder="+2547XXXXXXXX">
+              </div>
 
-        <label>Email Address *</label>
-        <input type="email" name="email" placeholder="example@email.com" required>
+              <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                  <input type="password" id="password" name="password" class="form-control form-control-lg rounded-start-pill px-4" placeholder="********" minlength="8" required>
+                  <button class="btn btn-outline-secondary rounded-end-pill" type="button" id="togglePassword" aria-label="Show password">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+              </div>
 
-        <label>Phone Number</label>
-        <input type="text" name="phone" placeholder="+2547XXXXXXXX">
+              <div class="mb-3">
+                <label for="confirm" class="form-label fw-semibold">Confirm Password</label>
+                <input type="password" id="confirm" name="confirm" class="form-control form-control-lg rounded-pill px-4" placeholder="********" required>
+              </div>
 
-        <label>Password *</label>
-        <input type="password" name="password" placeholder="********" minlength="8" required>
+              <!-- Math Captcha -->
+              <div class="mb-3">
+                <label for="captcha" class="form-label fw-semibold">
+                  Prove you’re human: What is <strong><?php echo "$num1 + $num2"; ?></strong>?
+                </label>
+                <input type="number" id="captcha" name="captcha" class="form-control form-control-lg rounded-pill px-4" placeholder="Your answer" required>
+              </div>
 
-        <label>Confirm Password *</label>
-        <input type="password" name="confirm" placeholder="********" required>
+              <div class="d-grid">
+                <button id="registerBtn" type="submit" class="btn btn-warning btn-lg rounded-pill shadow-sm">
+                  <span id="btnText"><i class="fas fa-user-plus me-2"></i> Register</span>
+                  <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                </button>
+              </div>
+            </form>
 
-        <button type="submit">Register</button>
+            <div id="registerAlert" class="alert mt-4 d-none" role="alert"></div>
 
-        <p style="text-align:center; margin-top:10px;">
-            Already have an account? <a href="login.php">Login here</a>
-        </p>
-    </form>
-</div>
+            <div class="text-center mt-4">
+              <p class="small text-muted mb-2">Already have an account?</p>
+              <a href="/app/Views/auth/login.php" class="btn btn-outline-warning rounded-pill px-4 py-2">
+                <i class="fas fa-sign-in-alt me-2"></i> Login
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-</body>
-</html>
+<?php include __DIR__ . '/../layout/footer.php'; ?>
+
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+AOS.init({ once:true, duration:800 });
+
+// Toggle password visibility
+document.getElementById('togglePassword').addEventListener('click', function() {
+  const input = document.getElementById('password');
+  const icon = this.querySelector('i');
+  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash'); }
+  else { input.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye'); }
+});
+
+// Handle registration
+document.getElementById('registerForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+
+  const form = this;
+  const btn = document.getElementById('registerBtn');
+  const btnText = document.getElementById('btnText');
+  const btnSpinner = document.getElementById('btnSpinner');
+  const alertBox = document.getElementById('registerAlert');
+
+  btn.disabled = true;
+  btnText.classList.add('d-none');
+  btnSpinner.classList.remove('d-none');
+  alertBox.classList.add('d-none');
+
+  const fd = new FormData(form);
+
+  try {
+    const res = await fetch('../../Controllers/register_process.php', { method: 'POST', body: fd });
+    const json = await res.json();
+
+    if (json.status === 'success') {
+      showAlert(json.message || 'Registration successful! Redirecting...', 'success');
+      setTimeout(() => window.location.href = '/app/Views/auth/login.php', 1500);
+    } else {
+      showAlert(json.message || 'Registration failed.', 'danger');
+    }
+  } catch (err) {
+    showAlert('Network error. Please try again later.', 'danger');
+  } finally {
+    btn.disabled = false;
+    btnText.classList.remove('d-none');
+    btnSpinner.classList.add('d-none');
+  }
+
+  function showAlert(message, type) {
+    alertBox.className = `alert alert-${type} mt-3`;
+    alertBox.textContent = message;
+    alertBox.classList.remove('d-none');
+  }
+});
+</script>

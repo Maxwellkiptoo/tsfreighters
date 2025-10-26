@@ -174,6 +174,9 @@ class CustomerController
         header('Location: index.php?controller=customer&action=login');
         exit;
     }
-
+    public function register()
+    {
+        require_once __DIR__ . '/../Views/auth/register.php';
+    }
 }
 
