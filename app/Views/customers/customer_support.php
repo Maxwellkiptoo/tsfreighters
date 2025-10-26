@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'tsfreighters/app/core/database.php';
+require_once 'tsfreighters/app/Core/Database.php';
 include 'layout/client_sidebar.php';
 
 // Check login
@@ -9,12 +9,13 @@ if (!isset($_SESSION['customer_id'])) {
     exit();
 }
 
+$db = Database::getInstance()->getConnection();
 $customer_id = $_SESSION['customer_id'];
 
 // Handle support form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $subject = mysqli_real_escape_string($conn, $_POST['subject']);
-    $message = mysqli_real_escape_string($conn, $_POST['message']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $subject = trim($_POST['subject']);
+    $message = trim($_POST['message']);
     $attachment = "";
 
     // Handle file upload
@@ -28,17 +29,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    $query = "INSERT INTO support_tickets (customer_id, subject, message, attachment, status, created_at)
-              VALUES ('$customer_id', '$subject', '$message', '$attachment', 'Open', NOW())";
-    mysqli_query($conn, $query);
+    // Insert support ticket
+    $stmt = $db->prepare("
+        INSERT INTO support_tickets (customer_id, subject, message, attachment, status, created_at)
+        VALUES (:customer_id, :subject, :message, :attachment, 'Open', NOW())
+    ");
+    $stmt->execute([
+        ':customer_id' => $customer_id,
+        ':subject' => $subject,
+        ':message' => $message,
+        ':attachment' => $attachment
+    ]);
 
     $success_msg = "✅ Your support request has been submitted successfully!";
 }
 
 // Fetch past tickets
-$tickets = mysqli_query($conn, "SELECT * FROM support_tickets WHERE customer_id = '$customer_id' ORDER BY created_at DESC");
+$stmt = $db->prepare("SELECT * FROM support_tickets WHERE customer_id = :cid ORDER BY created_at DESC");
+$stmt->execute([':cid' => $customer_id]);
+$tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +68,6 @@ body {
   margin-left: 250px;
   padding: 30px;
 }
-
 /* Header */
 .header {
   display: flex;
@@ -69,7 +78,6 @@ body {
   font-size: 22px;
   color: #111827;
 }
-
 /* Support Form */
 .support-form {
   background: #fff;
@@ -112,7 +120,6 @@ body {
 .support-form button:hover {
   background: #059669;
 }
-
 /* Ticket List */
 .ticket-section {
   background: white;
@@ -149,7 +156,6 @@ table tr:nth-child(even) {
 }
 .status.Open { background: #fef3c7; color: #b45309; }
 .status.Closed { background: #d1fae5; color: #047857; }
-
 .success-message {
   background: #ecfdf5;
   color: #065f46;
@@ -196,22 +202,22 @@ table tr:nth-child(even) {
         </tr>
       </thead>
       <tbody>
-        <?php if (mysqli_num_rows($tickets) > 0): ?>
-          <?php while ($row = mysqli_fetch_assoc($tickets)): ?>
+        <?php if (count($tickets) > 0): ?>
+          <?php foreach ($tickets as $row): ?>
             <tr>
-              <td>#<?= $row['id'] ?></td>
+              <td>#<?= htmlspecialchars($row['id']) ?></td>
               <td><?= htmlspecialchars($row['subject']) ?></td>
-              <td><span class="status <?= $row['status'] ?>"><?= $row['status'] ?></span></td>
+              <td><span class="status <?= htmlspecialchars($row['status']) ?>"><?= htmlspecialchars($row['status']) ?></span></td>
               <td><?= date("M d, Y", strtotime($row['created_at'])) ?></td>
               <td>
                 <?php if ($row['attachment']): ?>
-                  <a href="uploads/support/<?= $row['attachment'] ?>" target="_blank"><i class="fa fa-paperclip"></i> View</a>
+                  <a href="uploads/support/<?= htmlspecialchars($row['attachment']) ?>" target="_blank"><i class="fa fa-paperclip"></i> View</a>
                 <?php else: ?>
                   —
                 <?php endif; ?>
               </td>
             </tr>
-          <?php endwhile; ?>
+          <?php endforeach; ?>
         <?php else: ?>
           <tr><td colspan="5" style="text-align:center;">No support tickets found.</td></tr>
         <?php endif; ?>
