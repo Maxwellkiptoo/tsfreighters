@@ -1,17 +1,17 @@
 <?php
-// session_start();
+session_start();
 require_once __DIR__ . '/../../Core/Database.php';
 
-// // Check login FIRST
-// if (!isset($_SESSION['customer_id'])) {
-//     header("Location: /tsfreighters/app/Views/auth/login.php");
-//     exit();
-// }
+// Check if customer is logged in
+if (!isset($_SESSION['customer_id'])) {
+    header("Location: /tsfreighters/app/Views/auth/login.php");
+    exit();
+}
 
-// THEN include sidebar
+// Include sidebar after login check
 include __DIR__ . '/layout/client_sidebar.php';
 
-
+// Connect to DB
 $db = Database::getInstance()->getConnection();
 $customer_id = $_SESSION['customer_id'];
 
@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle file upload
     if (!empty($_FILES['attachment']['name'])) {
-        $targetDir = "uploads/support/";
+        $targetDir = __DIR__ . "/uploads/support/";
         if (!file_exists($targetDir)) mkdir($targetDir, 0777, true);
         $fileName = time() . "_" . basename($_FILES["attachment"]["name"]);
         $targetFile = $targetDir . $fileName;
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Insert support ticket
+    // Insert ticket
     $stmt = $db->prepare("
         INSERT INTO support_tickets (customer_id, subject, message, attachment, status, created_at)
         VALUES (:customer_id, :subject, :message, :attachment, 'Open', NOW())
@@ -47,11 +47,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $success_msg = "✅ Your support request has been submitted successfully!";
 }
 
-// Fetch past tickets
+// Fetch previous tickets
 $stmt = $db->prepare("SELECT * FROM support_tickets WHERE customer_id = :cid ORDER BY created_at DESC");
 $stmt->execute([':cid' => $customer_id]);
 $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -12,10 +12,6 @@ if (empty($_SESSION['csrf_token'])) {
 <section class="login-hero d-flex align-items-center justify-content-center text-white position-relative" 
          style="background: url('public/assets/images/truck2.jpg') center/cover no-repeat; height: 50vh;">
   <div class="overlay position-absolute w-100 h-100" style="background: rgba(0,0,0,0.55);"></div>
-  <div class="position-relative text-center z-2">
-    <h1 class="fw-bold display-5">Welcome to TS Freighters Portal</h1>
-    <p class="lead mb-0">Access Orders, Inventory, Shipments, Warehouses & Reports.</p>
-  </div>
 </section>
 
 <section class="py-5 bg-light">
