@@ -1,9 +1,8 @@
 <?php
-// config/database.php
 return [
-    'host' => '',
+    'host' => 'localhost',
     'dbname' => 'tsfreighters',
     'user' => 'root',
     'pass' => '',
-    'charset' => 'utf8mb4'
+    'charset' => 'utf8mb4',
 ];

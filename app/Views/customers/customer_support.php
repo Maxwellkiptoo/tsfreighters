@@ -1,11 +1,11 @@
 <?php
 session_start();
-include 'config.php';
+include 'tsfreighters/app/core/database.php';
 include 'layout/client_sidebar.php';
 
 // Check login
 if (!isset($_SESSION['customer_id'])) {
-    header("Location: login.php");
+    header("Location: tsfreighters/app/Views/auth/login.php");
     exit();
 }
 

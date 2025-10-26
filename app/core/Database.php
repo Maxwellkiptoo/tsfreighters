@@ -1,41 +1,35 @@
 <?php
-// app/Core/Database.php
-
 class Database
 {
     private static $instance = null;
-    private $connection;
-
-    private $host = 'localhost';
-    private $dbName = 'tsfreighters';
-    private $username = 'root';
-    private $password = '';
+    private $pdo;
 
     private function __construct()
     {
+        $cfg = require __DIR__ . '/../../config/database.php';
+        $dsn = "mysql:host={$cfg['host']};dbname={$cfg['dbname']};charset={$cfg['charset']}";
+        $options = [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ];
+
         try {
-            $this->connection = new PDO(
-                "mysql:host={$this->host};dbname={$this->dbName};charset=utf8mb4",
-                $this->username,
-                $this->password
-            );
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo = new PDO($dsn, $cfg['user'], $cfg['pass'], $options);
         } catch (PDOException $e) {
-            die("Database Connection Failed: " . $e->getMessage());
+            die("Database connection failed: " . $e->getMessage());
         }
     }
-
     public static function getInstance()
     {
-        if (!self::$instance) {
-            self::$instance = new self();
+        if (self::$instance === null) {
+            self::$instance = new Database();
         }
         return self::$instance;
     }
 
+    // Get PDO connection
     public function getConnection()
     {
-        return $this->connection;
+        return $this->pdo;
     }
 }
-?>
