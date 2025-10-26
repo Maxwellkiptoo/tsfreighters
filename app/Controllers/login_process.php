@@ -9,8 +9,8 @@ require_once __DIR__ . '/../../Core/Database.php';
 
 $db = Database::getInstance()->getConnection();
 
-// CSRF protection
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+// ✅ CSRF protection
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')) {
     echo json_encode(['status' => 'error', 'message' => 'Invalid CSRF token.']);
     exit;
 }
@@ -24,7 +24,7 @@ if (empty($email) || empty($password)) {
 }
 
 try {
-    // Check if user exists
+    // ✅ Fetch user
     $stmt = $db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
     $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,30 +34,36 @@ try {
         exit;
     }
 
+    // ✅ Account status check
     if ((int)$user['is_active'] === 0) {
         echo json_encode(['status' => 'error', 'message' => 'Your account is inactive. Contact admin.']);
         exit;
     }
 
-    // ✅ Allow login via tracking number or password
+    // ✅ Login check
     $validLogin = false;
 
-    // 1. Check password (for normal users)
+    // 1️⃣ Check password (for registered users)
     if (password_verify($password, $user['password'])) {
         $validLogin = true;
     }
 
-    // 2. Or check if entered password is their shipment tracking number
+    // 2️⃣ Check if entered password matches a shipment tracking number
     if (!$validLogin) {
         $trackStmt = $db->prepare("
-            SELECT tracking_number FROM shipments 
-            WHERE client_id = :cid AND tracking_number = :tracking
+            SELECT tracking_number 
+            FROM shipments 
+            WHERE client_id = :cid 
+              AND tracking_number = :tracking
+            LIMIT 1
         ");
         $trackStmt->execute([
             ':cid' => $user['id'],
             ':tracking' => $password
         ]);
-        if ($trackStmt->fetch()) $validLogin = true;
+        if ($trackStmt->fetch()) {
+            $validLogin = true;
+        }
     }
 
     if (!$validLogin) {
@@ -68,21 +74,38 @@ try {
     // ✅ Set session variables
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['full_name'] = $user['full_name'];
+    $_SESSION['email'] = $user['email'];
     $_SESSION['role'] = $user['role'];
 
-    // ✅ Redirect based on role
+    // ✅ Role-based redirects
     $redirect = '/dashboard.php';
-    if ($user['role'] === 'admin') $redirect = '/admin/dashboard.php';
-    elseif ($user['role'] === 'driver') $redirect = '/driver/dashboard.php';
-    elseif ($user['role'] === 'staff') $redirect = '/staff/dashboard.php';
-    elseif ($user['role'] === 'customer') $redirect = '/app/Views/customers/customer_dashboard.php';
+    switch ($user['role']) {
+        case 'admin':
+            $redirect = '/admin/dashboard.php';
+            break;
+        case 'driver':
+            $redirect = '/driver/dashboard.php';
+            break;
+        case 'staff':
+            $redirect = '/staff/dashboard.php';
+            break;
+        case 'customer':
+            $redirect = '/app/Views/customers/customer_dashboard.php';
+            break;
+    }
 
+    // ✅ Success
     echo json_encode([
         'status' => 'success',
         'message' => 'Welcome back, ' . htmlspecialchars($user['full_name']) . '!',
         'role' => $user['role'],
         'redirect' => $redirect
     ]);
+
 } catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => 'Server error: ' . $e->getMessage()]);
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Server error: ' . $e->getMessage()
+    ]);
 }
+?>
