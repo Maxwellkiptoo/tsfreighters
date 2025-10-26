@@ -220,7 +220,7 @@ table tr:nth-child(even) {
   </div>
 
   <footer style="margin-top:40px;text-align:center;font-size:14px;color:#6b7280;">
-    © 2025 Nexbridge Logistics Customer Support
+    © 2025 tsfreighters Logistics Customer Support
   </footer>
 </div>
 
