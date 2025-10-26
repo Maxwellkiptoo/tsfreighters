@@ -1,13 +1,16 @@
 <?php
-session_start();
-require_once 'tsfreighters/app/Core/Database.php';
-include 'layout/client_sidebar.php';
+// session_start();
+require_once __DIR__ . '/../../Core/Database.php';
 
-// Check login
-if (!isset($_SESSION['customer_id'])) {
-    header("Location: tsfreighters/app/Views/auth/login.php");
-    exit();
-}
+// // Check login FIRST
+// if (!isset($_SESSION['customer_id'])) {
+//     header("Location: /tsfreighters/app/Views/auth/login.php");
+//     exit();
+// }
+
+// THEN include sidebar
+include __DIR__ . '/layout/client_sidebar.php';
+
 
 $db = Database::getInstance()->getConnection();
 $customer_id = $_SESSION['customer_id'];
