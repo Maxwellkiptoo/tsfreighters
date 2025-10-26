@@ -16,7 +16,6 @@ body {
   overflow-x: hidden;
 }
 .main-content {
-  margin-left: 250px;
   padding: 30px;
 }
 
@@ -103,12 +102,6 @@ tr:nth-child(even) { background: #f9fafb; }
 }
 .action-btn:hover { background: #059669; }
 
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-}
 </style>
 </head>
 <body>
@@ -166,8 +159,7 @@ footer {
       </tbody>
     </table>
   </div>
-
-  <footer>© 2025 Nexbridge Logistics | Customer Shipments</footer>
+<?php include 'layout/cfooter.php'; ?>
 </div>
 
 <script>

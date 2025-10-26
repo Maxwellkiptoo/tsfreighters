@@ -239,9 +239,8 @@
 <div class="sidebar" id="sidebar">
   <div class="logo-section">
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Logo_TV_2015.png" alt="Company Logo">
-    <h2>LogiTrack</h2>
+    <h2>tsfreighters</h2>
   </div>
-
   <div class="profile-card">
     <img src="https://i.pravatar.cc/60" alt="User">
     <h4>Jane Customer</h4>

@@ -69,7 +69,6 @@ body {
   color: #333;
 }
 .main-content {
-  margin-left: 250px;
   padding: 30px;
 }
 /* Header */
@@ -228,10 +227,7 @@ table tr:nth-child(even) {
       </tbody>
     </table>
   </div>
-
-  <footer style="margin-top:40px;text-align:center;font-size:14px;color:#6b7280;">
-    © 2025 tsfreighters Logistics Customer Support
-  </footer>
+  <?php include 'layout/cfooter.php'; ?>
 </div>
 
 </body>

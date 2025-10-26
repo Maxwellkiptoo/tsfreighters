@@ -17,7 +17,6 @@ body {
   overflow-x: hidden;
 }
 .main-content {
-  margin-left: 250px;
   padding: 30px;
 }
 
@@ -94,13 +93,6 @@ button:hover { background: #059669; }
   transition: background 0.3s;
 }
 .back-btn:hover { background: #d1d5db; }
-
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-}
 </style>
 </head>
 <body>
@@ -159,8 +151,7 @@ footer {
       <button type="submit"><i class="fa fa-check"></i> Submit Shipment</button>
     </form>
   </div>
-
-  <footer>© 2025 Nexbridge Logistics | Create Shipment</footer>
+<?php include 'layout/cfooter.php'; ?>
 </div>
 
 <script>

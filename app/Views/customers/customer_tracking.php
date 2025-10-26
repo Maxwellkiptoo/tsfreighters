@@ -1,16 +1,21 @@
 <?php
 session_start();
-include 'config.php';
+require_once __DIR__ . '/../../Core/Database.php';
+include 'layout/client_sidebar.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Track Shipment | Nexbridge Logistics</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Dashboard | tsfreighters</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {font-family:'Poppins',sans-serif; background:#f9fafb; margin:0; padding:0;}
-    .container {max-width:800px; margin:60px auto; background:#fff; padding:40px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1);}
+    .container {max-width:fit-content ; margin:200px auto;
+       background:#fff; padding:40px; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.1);}
     h2 {text-align:center; color:#111827; margin-bottom:25px;}
     form {display:flex; justify-content:center; gap:10px; margin-bottom:30px;}
     input[type="text"] {width:60%; padding:10px; border:1px solid #d1d5db; border-radius:8px; font-size:16px;}
@@ -36,15 +41,14 @@ include 'config.php';
 <body>
   <div class="container">
     <h2>Track Your Shipment</h2>
-
     <form id="trackingForm">
       <input type="text" id="tracking_number" name="tracking_number" placeholder="Enter tracking number (e.g. KRA-TRK9472)" required>
       <button type="submit"><i class="fa fa-search"></i> Track</button>
-    </form>
-
+     </form>
     <div id="loading"><span class="loader"></span> Fetching latest updates...</div>
     <div id="trackingResult"></div>
   </div>
+    <?php include 'layout/cfooter.php'; ?>
 
 <script>
   const form = document.getElementById('trackingForm');
@@ -57,8 +61,6 @@ include 'config.php';
     trackingNumber = document.getElementById('tracking_number').value.trim();
     if (trackingNumber) fetchTracking();
   });
-
-  // Auto-refresh every 30 seconds
   setInterval(() => {
     if (trackingNumber !== '') fetchTracking();
   }, 30000);

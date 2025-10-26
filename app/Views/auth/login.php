@@ -2,7 +2,10 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+error_reporting(E_ALL);
+ini_set('display_errors', 0); // hide warnings from browser
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/../../error_log.txt');
 // generate CSRF token
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

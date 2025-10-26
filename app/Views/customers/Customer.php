@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Customer Dashboard | LogiTrack</title>
+<title>Customer Dashboard | tsfreighters</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -17,11 +17,9 @@ body {
   overflow-x: hidden;
 }
 .main-content {
-  margin-left: 260px;
+  /* margin-left: 260px; */
   padding: 30px;
 }
-
-/* Dashboard Header */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
@@ -137,32 +135,16 @@ table tr:nth-child(even){background:#f9fafb;}
   font-weight: 500;
   font-size: 13px;
   display: inline-block;
-}
-.status.delivered{background:#d1fae5;color:#047857;}
+}.status.delivered{background:#d1fae5;color:#047857;}
 .status.transit{background:#fef3c7;color:#b45309;}
 .status.pending{background:#e0f2fe;color:#0369a1;}
 
-/* Footer */
-footer {
-  margin-top: 40px;
-  text-align: center;
-  font-size: 14px;
-  color: #6b7280;
-}
+
 </style>
 </head>
 <body>
 
 <div class="main-content">
-
-  <div class="dashboard-header">
-    <h1>Customer Dashboard Overview</h1>
-    <div class="notifications">
-      <i class="fa fa-bell"></i>
-      <span class="badge">3</span>
-    </div>
-  </div>
-
   <!-- Overview Cards -->
   <div class="dashboard-cards">
     <div class="card"><i class="fa fa-truck"></i><h3>5</h3><p>Active Shipments</p></div>
@@ -199,8 +181,7 @@ footer {
       </tbody>
     </table>
   </div>
-
-  <footer>© 2025 Nexbridge Logistics | Customer Dashboard</footer>
+  <?php include 'layout/cfooter.php'; ?>
 </div>
 
 <!-- Chart.js Configuration -->

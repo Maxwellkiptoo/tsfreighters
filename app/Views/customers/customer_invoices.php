@@ -1,16 +1,14 @@
 <?php
 session_start();
-include 'config.php'; // your DB connection
-
-// Check if customer is logged in
+require_once __DIR__ . '/../../Core/Database.php';
 if (!isset($_SESSION['customer_id'])) {
-    header("Location: login.php");
+    header("Location: /tsfreighters/app/Views/auth/login.php");
     exit();
 }
+include __DIR__ . '/layout/client_sidebar.php';
 
 $customer_id = $_SESSION['customer_id'];
 
-// Fetch all invoices for this customer
 $sql = "SELECT i.id, i.invoice_number, i.total_amount, i.created_at, s.tracking_number 
         FROM invoices i 
         JOIN shipments s ON i.shipment_id = s.id 
@@ -18,14 +16,13 @@ $sql = "SELECT i.id, i.invoice_number, i.total_amount, i.created_at, s.tracking_
         ORDER BY i.created_at DESC";
 $result = mysqli_query($conn, $sql);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Invoices</title>
-    <link rel="stylesheet" href="styles.css"> <!-- optional -->
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: "Poppins", sans-serif;
@@ -128,5 +125,6 @@ $result = mysqli_query($conn, $sql);
         }
         ?>
     </div>
+      <?php include 'layout/cfooter.php'; ?>
 </body>
 </html>

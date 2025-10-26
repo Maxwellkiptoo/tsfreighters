@@ -13,6 +13,7 @@ $num1 = rand(1, 9);
 $num2 = rand(1, 9);
 $_SESSION['math_answer'] = $num1 + $num2;
 ?>
+
 <?php include __DIR__ . '/../layout/header.php'; ?>
 
 <section class="py-5 bg-light min-vh-100 d-flex align-items-center">
@@ -32,7 +33,7 @@ $_SESSION['math_answer'] = $num1 + $num2;
 
               <div class="mb-3">
                 <label for="full_name" class="form-label fw-semibold">Full Name</label>
-                <input type="text" id="full_name" name="full_name" class="form-control form-control-lg rounded-pill px-4" placeholder="John Doe" required>
+                <input type="text" id="full_name" name="full_name" class="form-control form-control-lg rounded-pill px-4" placeholder="Full name" required>
               </div>
 
               <div class="mb-3">
@@ -80,7 +81,9 @@ $_SESSION['math_answer'] = $num1 + $num2;
 
             <div class="text-center mt-4">
               <p class="small text-muted mb-2">Already have an account?</p>
-              <a href="/app/Views/auth/login.php" class="btn btn-outline-warning rounded-pill px-4 py-2">
+              <!-- ✅ Updated Login Link -->
+              <a href="http://localhost/tsfreighters/public/index.php?controller=customer&action=login"
+                 class="btn btn-outline-warning rounded-pill px-4 py-2">
                 <i class="fas fa-sign-in-alt me-2"></i> Login
               </a>
             </div>
@@ -93,6 +96,7 @@ $_SESSION['math_answer'] = $num1 + $num2;
 
 <?php include __DIR__ . '/../layout/footer.php'; ?>
 
+<!-- JS: AOS + Behavior -->
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
@@ -102,12 +106,17 @@ AOS.init({ once:true, duration:800 });
 document.getElementById('togglePassword').addEventListener('click', function() {
   const input = document.getElementById('password');
   const icon = this.querySelector('i');
-  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash'); }
-  else { input.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye'); }
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.classList.replace('fa-eye', 'fa-eye-slash');
+  } else {
+    input.type = 'password';
+    icon.classList.replace('fa-eye-slash', 'fa-eye');
+  }
 });
 
-// Handle registration
-document.getElementById('registerForm').addEventListener('submit', async function(e){
+// Handle registration form submission
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
   e.preventDefault();
 
   const form = this;
@@ -124,12 +133,17 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   const fd = new FormData(form);
 
   try {
-    const res = await fetch('../../Controllers/register_process.php', { method: 'POST', body: fd });
+    const res = await fetch('http://localhost/tsfreighters/public/index.php?controller=customer&action=register_process', {
+      method: 'POST',
+      body: fd
+    });
     const json = await res.json();
 
     if (json.status === 'success') {
       showAlert(json.message || 'Registration successful! Redirecting...', 'success');
-      setTimeout(() => window.location.href = '/app/Views/auth/login.php', 1500);
+      setTimeout(() => {
+        window.location.href = 'http://localhost/tsfreighters/public/index.php?controller=customer&action=login';
+      }, 1500);
     } else {
       showAlert(json.message || 'Registration failed.', 'danger');
     }

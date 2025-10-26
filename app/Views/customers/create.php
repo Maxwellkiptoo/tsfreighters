@@ -1,4 +1,4 @@
-<?php include __DIR__ . '/header.php'; ?>
+<?php include __DIR__ . '/layout/client_sidebar.php'; ?>
 <div class="card" style="max-width:720px; margin:auto">
   <form method="POST" style="display:grid; gap:12px">
     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars(\Auth::getCsrfToken() ?? $_SESSION['csrf_token']) ?>">
