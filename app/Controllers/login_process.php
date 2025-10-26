@@ -1,113 +1,88 @@
 <?php
-// app/controllers/login_process.php
-header('Content-Type: application/json');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// basic rate limit per session (adjust thresholds for production)
-if (!isset($_SESSION['login_attempts'])) $_SESSION['login_attempts'] = 0;
-if (!isset($_SESSION['last_attempt_time'])) $_SESSION['last_attempt_time'] = 0;
-$now = time();
-if ($_SESSION['login_attempts'] >= 8 && ($now - $_SESSION['last_attempt_time']) < 300) {
-    echo json_encode(['status'=>'error','message'=>'Too many attempts. Try again later.']);
+header('Content-Type: application/json');
+
+require_once __DIR__ . '/../../Core/Database.php';
+
+$db = Database::getInstance()->getConnection();
+
+// CSRF protection
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid CSRF token.']);
     exit;
 }
 
-// adjust path to your DB bootstrap (use PDO)
-require_once __DIR__ . '/../../private/config/db_connect.php'; // must set $pdo = new PDO(...)
+$email = trim($_POST['email'] ?? '');
+$password = trim($_POST['password'] ?? '');
 
-// helper: send error
-function jsonError($msg) {
-    echo json_encode(['status'=>'error','message'=>$msg]); exit;
+if (empty($email) || empty($password)) {
+    echo json_encode(['status' => 'error', 'message' => 'Please fill in all fields.']);
+    exit;
 }
 
 try {
-    // only allow POST
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        jsonError('Invalid request method.');
-    }
-
-    // CSRF check
-    $csrfPosted = $_POST['csrf_token'] ?? '';
-    if (empty($csrfPosted) || !hash_equals($_SESSION['csrf_token'] ?? '', $csrfPosted)) {
-        jsonError('Invalid CSRF token.');
-    }
-
-    // sanitize
-    $email = filter_var(trim($_POST['email'] ?? ''), FILTER_VALIDATE_EMAIL);
-    $password = trim($_POST['password'] ?? '');
-    $remember = isset($_POST['remember']) ? true : false;
-
-    if (!$email || !$password) {
-        $_SESSION['login_attempts']++;
-        $_SESSION['last_attempt_time'] = $now;
-        jsonError('Please provide both email and password.');
-    }
-
-    // fetch user by email
-    $stmt = $pdo->prepare("SELECT id, email, password_hash, role, is_active FROM users WHERE email = :email LIMIT 1");
-    $stmt->execute(['email' => $email]);
+    // Check if user exists
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = :email LIMIT 1");
+    $stmt->execute([':email' => $email]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        $_SESSION['login_attempts']++;
-        $_SESSION['last_attempt_time'] = $now;
-        jsonError('Incorrect email or password.');
+        echo json_encode(['status' => 'error', 'message' => 'No account found with that email.']);
+        exit;
     }
 
-    if (!$user['is_active']) {
-        jsonError('Account not active. Contact support.');
+    if ((int)$user['is_active'] === 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Your account is inactive. Contact admin.']);
+        exit;
     }
 
-    // verify password (password_hash should be created with password_hash())
-    if (!password_verify($password, $user['password_hash'])) {
-        $_SESSION['login_attempts']++;
-        $_SESSION['last_attempt_time'] = $now;
-        jsonError('Incorrect email or password.');
+    // ✅ Allow login via tracking number or password
+    $validLogin = false;
+
+    // 1. Check password (for normal users)
+    if (password_verify($password, $user['password'])) {
+        $validLogin = true;
     }
 
-    // reset attempt counter on successful login
-    $_SESSION['login_attempts'] = 0;
-    $_SESSION['last_attempt_time'] = $now;
+    // 2. Or check if entered password is their shipment tracking number
+    if (!$validLogin) {
+        $trackStmt = $db->prepare("
+            SELECT tracking_number FROM shipments 
+            WHERE client_id = :cid AND tracking_number = :tracking
+        ");
+        $trackStmt->execute([
+            ':cid' => $user['id'],
+            ':tracking' => $password
+        ]);
+        if ($trackStmt->fetch()) $validLogin = true;
+    }
 
-    // OPTIONAL: check if 2FA/mfa is required for role
-    $role = $user['role'] ?? 'customer'; // e.g. admin, ops, warehouse, customer, supplier
+    if (!$validLogin) {
+        echo json_encode(['status' => 'error', 'message' => 'Incorrect password or tracking number.']);
+        exit;
+    }
 
-    // create session payload & minimal session hardening
-    session_regenerate_id(true);
+    // ✅ Set session variables
     $_SESSION['user_id'] = $user['id'];
-    $_SESSION['user_email'] = $user['email'];
-    $_SESSION['user_role'] = $role;
-    // set 'remember' as cookie if requested (implement secure token in DB)
-    if ($remember) {
-        // Warning: implement persistent login tokens with DB-stored hashed tokens (not plain password)
-        setcookie('remember', base64_encode($user['id'] . '|' . bin2hex(random_bytes(16))), time() + (86400 * 30), "/", "", true, true);
-    }
+    $_SESSION['full_name'] = $user['full_name'];
+    $_SESSION['role'] = $user['role'];
 
-    // AUDIT: log login time/IP (implement in DB or file)
-    // $auditStmt = $pdo->prepare("INSERT INTO user_audit (user_id, event, ip) VALUES (:uid, 'login', :ip)");
-    // $auditStmt->execute(['uid'=>$user['id'], 'ip'=>$_SERVER['REMOTE_ADDR']]);
-
-    // Determine redirect by role
+    // ✅ Redirect based on role
     $redirect = '/dashboard.php';
-    if ($role === 'admin') $redirect = '/admin/dashboard.php';
-    if ($role === 'warehouse') $redirect = '/warehouse/dashboard.php';
-    if ($role === 'ops') $redirect = '/ops/dashboard.php';
-    if ($role === 'supplier') $redirect = '/supplier/dashboard.php';
-    if ($role === 'customer') $redirect = '/customer/orders.php';
+    if ($user['role'] === 'admin') $redirect = '/admin/dashboard.php';
+    elseif ($user['role'] === 'driver') $redirect = '/driver/dashboard.php';
+    elseif ($user['role'] === 'staff') $redirect = '/staff/dashboard.php';
+    elseif ($user['role'] === 'customer') $redirect = '/app/Views/customers/customer_dashboard.php';
 
     echo json_encode([
         'status' => 'success',
-        'message' => 'Login successful. Welcome back!',
-        'role' => $role,
+        'message' => 'Welcome back, ' . htmlspecialchars($user['full_name']) . '!',
+        'role' => $user['role'],
         'redirect' => $redirect
     ]);
-    exit;
-
-} catch (PDOException $ex) {
-    // Do NOT reveal DB details in production — keep safe logging in server logs
-    error_log("Login DB error: " . $ex->getMessage());
-    jsonError('Server error. Please try again later.');
 } catch (Exception $e) {
-    error_log("Login error: " . $e->getMessage());
-    jsonError('Server error. Please try again later.');
+    echo json_encode(['status' => 'error', 'message' => 'Server error: ' . $e->getMessage()]);
 }
