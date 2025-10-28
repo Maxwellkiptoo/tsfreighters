@@ -1,31 +1,20 @@
 <?php
-// Start session if not started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// Error logging setup
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/../../error_log.txt');
 
-// Include config for BASE_URL
-require_once __DIR__ . '/../../config/config.php';
-
-// CSRF Token
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-
-// Simple math CAPTCHA
 $num1 = rand(1, 10);
 $num2 = rand(1, 10);
 $_SESSION['math_answer'] = $num1 + $num2;
-
-// Include header
-include __DIR__ . '/../layout/header.php';
 ?>
+<?php include __DIR__ . '/../layout/header.php'; ?>
 
 <section class="py-5 bg-light min-vh-100 d-flex align-items-center">
   <div class="container">
@@ -39,7 +28,6 @@ include __DIR__ . '/../layout/header.php';
               <p class="text-muted small">Use your email and password / tracking number to log in.</p>
             </div>
 
-            <!-- ✅ Login Form -->
             <form id="loginForm" novalidate>
               <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
 
@@ -84,11 +72,10 @@ include __DIR__ . '/../layout/header.php';
 
             <div id="loginAlert" class="alert mt-4 d-none" role="alert"></div>
 
-            <!-- 🔹 Register Section -->
+            <!-- 🔹 NEW: Register Section -->
             <div class="text-center mt-4">
               <p class="small text-muted mb-2">Don’t have an account?</p>
-              <a href="<?php echo BASE_URL; ?>index.php?controller=customer&action=register" 
-                 class="btn btn-outline-warning rounded-pill px-4 py-2">
+              <a href="tsfreighters/app/Views/auth/register.php" class="btn btn-outline-warning rounded-pill px-4 py-2">
                 <i class="fas fa-user-plus me-2"></i> Create Account
               </a>
             </div>
@@ -113,23 +100,17 @@ include __DIR__ . '/../layout/header.php';
 <script>
 AOS.init({ once:true, duration:800 });
 
-// Toggle password visibility
+// toggle password visibility
 document.getElementById('togglePassword').addEventListener('click', function() {
   const input = document.getElementById('password');
   const icon = this.querySelector('i');
-  if (input.type === 'password') {
-    input.type = 'text';
-    icon.classList.replace('fa-eye', 'fa-eye-slash');
-  } else {
-    input.type = 'password';
-    icon.classList.replace('fa-eye-slash', 'fa-eye');
-  }
+  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye','fa-eye-slash'); }
+  else { input.type = 'password'; icon.classList.replace('fa-eye-slash','fa-eye'); }
 });
 
-// Handle form submission with anti-bot
+// handle form submission with anti-bot
 document.getElementById('loginForm').addEventListener('submit', async function(e){
   e.preventDefault();
-
   const form = this;
   const btn = document.getElementById('loginBtn');
   const btnText = document.getElementById('btnText');
